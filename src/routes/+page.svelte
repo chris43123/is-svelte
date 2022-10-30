@@ -1,2 +1,24 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+    import {db} from '../firebase'
+    import { collection, getDocs } from "firebase/firestore"; 
+    import { onMount } from 'svelte';
+
+
+    // Components
+    import Card from '../components/Card.svelte'
+
+    onMount(async () => {
+        const querySnapshot = await getDocs(collection(db, "clases"));
+            querySnapshot.forEach((doc) => {
+            console.log(doc.data())
+        });
+
+    });
+    
+
+   
+</script>
+
+<div>
+    <Card/>
+</div>
