@@ -32,6 +32,10 @@
 </script>
 
 <div class="container m-auto">
+    <button on:click={() => show = true}>Click</button>
+
+    <Modal on:close={closeModal} show={show}>
+    </Modal>
 
     {#each timeline as period}
         <Period name={period.period} year={period.year} subjects={period.subjects} component={component}/>

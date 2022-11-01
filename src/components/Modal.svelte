@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import Icon from '@iconify/svelte';
 
-    export let show = false;
+    export let show = false, title='Title', subtitle='Subtitle';
 
 	const dispatch = createEventDispatcher();
 
@@ -23,8 +23,8 @@
         <!-- Modal Header -->
         <div class="flex flex-row justify-between py-3 px-4 bg-slate-100">
             <div>
-                <h1 class="text-gray-800 text-xl font-semibold">Modal Title</h1>
-                <h4 class="text-gray-600 font-medium">Subtitle</h4>
+                <h1 class="text-gray-800 text-xl font-semibold">{title}</h1>
+                <h4 class="text-gray-600 font-medium">{subtitle}</h4>
             </div>
             <div class="w-15 text-2xl" on:click={closeModal} on:keypress={(e) => {console.log(e)}}>
                 <Icon icon="ph:x" class="cursor-pointer"/>
@@ -33,8 +33,7 @@
         
         <!-- Modal Header -->
         <div class="p-4">
-            <!-- <slot></slot> -->
-            <h1>Hola</h1>
+            <slot name="body"></slot>
         </div>       
       </div>
     </div>

@@ -4,9 +4,11 @@
     import {getData} from '../utils/firebaseApi'
     import { onMount } from 'svelte'
 
+    //Props
     export let disabled = false;
     export let subject
 
+    //Variables
     let classDisabled = 'grayscale bg-gray-100 cursor-not-allowed';
     let subj = {}
     let subjName = ''
@@ -14,6 +16,8 @@
 
     onMount(async () => {
         subj = await getData('clases', subject.code, subjectConverter);
+
+        //Slice max content subject name
         if(subj.name.length > 20) {
             subjName = subj.name.slice(0,20) + '...'
         } else {
@@ -23,6 +27,7 @@
             subj.note = subject.note
         }
 
+        //Define status
         if(subj.note >= 65) {
             classStatus = 'text-green-400'
             textStatus = 'Aprobado'
