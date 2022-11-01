@@ -18,7 +18,7 @@
     function selectActivity(act) {
         title = act.name
         subtitle = 'Lorem ipsum dolor sit amet'
-        show = true
+        showFormRegister = true
     }
 
     //Convert Firestore Date

@@ -21,14 +21,14 @@
             Información</a>
         </li>
         <li class="flex items-center">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/">
+            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/actividades">
               Actividades</a>
           </li>
       </ul>
       <ul class="flex flex-col lg:flex-row list-none lg:ml-auto items-center">
         <li class="inline-block relative">
-          <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/" onclick="openDropdown(event,'demo-pages-dropdown')">
-            Demo Pages
+          <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/plan-estudios" onclick="openDropdown(event,'demo-pages-dropdown')">
+            Plan de Estudios
           </a>
           <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="demo-pages-dropdown">
             <span class="text-sm pt-2 pb-0 px-4 font-semibold block w-full whitespace-nowrap bg-transparent text-blueGray-400">
