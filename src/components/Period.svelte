@@ -1,12 +1,13 @@
 <script>
     import Icon from '@iconify/svelte';
-    import Card from './card.svelte';
-    
+
+    export let name, year, subjects, component;
 </script>
 
 <div class="flex flex-row p-4 mb-5 bg-gray-50 border-l-4 border-slate-300 font-medium">
     <div class="w-1/4 p-4 ">
-        <h2 class="text-xl font-bold text-gray-600">Periodo 1</h2>
+        <h2 class="text-xl font-bold text-gray-600">Periodo {name}</h2>
+        <p class="py-1">{year}</p>
         <p class="py-1">12 UV</p>
         <p class="py-1">85%</p>
         <div class="text-green-400 flex flex-row py-1">
@@ -22,10 +23,9 @@
     </div>
     <div class="w-3/4">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <Card/>
-            <Card/>
-            <Card/>
-            <Card/>
+            {#each subjects as subject}
+                <svelte:component this={component.component} subject={subject}/>
+            {/each}
         </div>
     </div>
   </div>
