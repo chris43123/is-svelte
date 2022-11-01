@@ -15,6 +15,17 @@ class Subject {
     }
 }
 
+class Activity {
+    constructor (name, area, hours, date, start, end) {
+        this.name = name,
+        this.area = area,
+        this.hours = hours,
+        this.date = date,
+        this.start = start,
+        this.end = end
+    }
+}
+
 // Firestore data converter
 const studentConverter = {
     fromFirestore: (snapshot, options) => {
@@ -30,4 +41,20 @@ const subjectConverter = {
     }
 };
 
-export {studentConverter, subjectConverter};
+const activityConverter = {
+    fromFirestore: (snapshot, options) => {
+        const data = snapshot.data(options);
+        return new Activity(data.name, data.area, data.hours, data.date, data.start, data.end);
+    }
+};
+
+const converterDocuments = (docs) => {
+    let arr = []
+    docs.forEach(element => {
+        arr.push(element.data())
+    });
+    return arr
+};
+
+
+export {studentConverter, subjectConverter, activityConverter, converterDocuments};

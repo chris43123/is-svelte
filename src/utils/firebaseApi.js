@@ -1,8 +1,9 @@
+import {converterDocuments} from './firebaseMap'
 import {db} from '../firebase'
-import { doc, getDoc, query } from "firebase/firestore"; 
+import { doc, getDoc, getDocs, query, collection } from "firebase/firestore"; 
 
-export async function getData (collection, value, converter = Function) {
-    const ref = query(doc(db, collection, value).withConverter(converter));
+export async function getData (documents, value, converter = Function) {
+    const ref = query(doc(db, documents, value).withConverter(converter));
     const docSnap = await getDoc(ref)
 
     if (docSnap.exists()) {
@@ -10,4 +11,16 @@ export async function getData (collection, value, converter = Function) {
     } else {
         return false
     }
+}
+
+export async function getAllData (documents, value='' , q ='', sign) {
+    let ref = ''
+    if(value != '' && query != '') {
+        ref = query(collection(db, documents), where(value, sign, q));
+    } else {
+        ref = query(collection(db, documents));
+    }
+    const docSnap = await getDocs(ref)
+    
+    return converterDocuments(docSnap)
 }
