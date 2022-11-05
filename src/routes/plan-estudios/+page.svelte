@@ -1,63 +1,99 @@
 <script>
-    import {studentConverter} from '../../utils/firebaseMap'
-    import {getData} from '../../utils/firebaseApi'
     import { onMount } from 'svelte';
 
-    // Components
-    import Period from '../../components/Period.svelte'
-    import Card from '../../components/Card.svelte';
-    import Modal from '../../components/Modal.svelte';
+    function adjustLine(from, to, line){
 
-    let component = {
-        component: Card
-    }
+        var fT = from.offsetTop  + from.offsetHeight/2;
+        var tT = to.offsetTop    + to.offsetHeight/2;
+        var fL = from.offsetLeft + from.offsetWidth/2;
+        var tL = to.offsetLeft   + to.offsetWidth/2;
 
-    //Variables
-    let student = {}
-    let timeline = []
+        var CA   = Math.abs(tT - fT);
+        var CO   = Math.abs(tL - fL);
+        var H    = Math.sqrt(CA*CA + CO*CO);
+        var ANG  = 180 / Math.PI * Math.acos( CA/H );
 
-    onMount(async () => {
-        student = await getData('students', 'eYsc5rON7R6yOw4uaCyr', studentConverter);
-        if (student) {
-            timeline = student.timeline
+        if(tT > fT){
+            var top  = (tT-fT)/2 + fT;
+        }else{
+            var top  = (fT-tT)/2 + tT;
         }
+        if(tL > fL){
+            var left = (tL-fL)/2 + fL;
+        }else{
+            var left = (fL-tL)/2 + tL;
+        }
+
+        if(( fT < tT && fL < tL) || ( tT < fT && tL < fL) || (fT > tT && fL > tL) || (tT > fT && tL > fL)){
+            ANG *= -1;
+        }
+        top-= H/2;
+
+        line.style["-webkit-transform"] = 'rotate('+ ANG +'deg)';
+        line.style["-moz-transform"] = 'rotate('+ ANG +'deg)';
+        line.style["-ms-transform"] = 'rotate('+ ANG +'deg)';
+        line.style["-o-transform"] = 'rotate('+ ANG +'deg)';
+        line.style["-transform"] = 'rotate('+ ANG +'deg)';
+        line.style.top    = top+'px';
+        line.style.left   = left+'px';
+        line.style.height = H + 'px';
+    }
+    onMount(async () => {
+        adjustLine(
+            document.getElementById('div1'), 
+            document.getElementById('div2'),
+            document.getElementById('line')
+        );
+   
     });
     
-    let show = false;
-    function closeModal() {
-        console.log(true)
-        show = false
-    }
-   
 </script>
 
 <div class="container m-auto">
-    <div class="flex flex-row justify-between items-start py-4 mb-4 border-b border-gray-200">
-        <div>
-            <h1 class="text-2xl text-slate-800 font-bold mb-2">Historial de Clases</h1>
-        </div>
-    </div>
-
-
-    {#each timeline as period}
-        <Period name={period.period} year={period.year} subjects={period.subjects} component={component}/>
-    {/each}
-
-    <section>
-        <div class="grid grid-cols-1 gap-5 py-10 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-            <!-- <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/>
-            <Card disabled/> -->
     
-        </div>
-    </section>
+    <div id="content">
+        <div id="line"></div>
+        <div id="div1" class="mydiv"></div>
+        <div id="div2" class="mydiv"></div>
+    </div>
 </div>
+
+<style>
+    #content{
+  position:relative;
+}
+.mydiv{
+  border:1px solid #368ABB;
+  background-color:#43A4DC;
+  position:absolute;
+}
+.mydiv:after{
+  content:no-close-quote;
+  position:absolute;
+  top:50%;
+  left:50%;
+  background-color:black;
+  width:4px;
+  height:4px;
+  border-radius:50%;
+  margin-left:-2px;
+  margin-top:-2px;
+}
+#div1{
+  left:0px;
+  top:0px;
+  width:100px;
+  height:100px;
+}
+#div2{
+  left:200px;
+  top:900px;
+  width:50px;
+  height:40px;
+}
+#line{
+  position:absolute;
+  width:1px;
+  background-color:red;
+}  
+</style>

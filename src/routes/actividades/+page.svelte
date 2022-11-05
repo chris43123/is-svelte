@@ -1,6 +1,5 @@
 <script>
-    import {required} from '../../utils/validations'
-    import {activityConverter} from '../../utils/firebaseMap'
+    import {required, fieldValidation} from '../../utils/validations'
     import {getAllData} from '../../utils/firebaseApi'
     import { onMount } from 'svelte';
 
@@ -44,13 +43,19 @@
 
         const data = {};
         for (let field of formData) {
-        const [key, value] = field;
-        if( !required(value) ) {
-            errors[key] = 'Este campo es requerido'
-        }
+            const [key, value] = field;
+            if( !required(value) ) {
+                errors[key] = 'Este campo es requerido'
+            }
             data[key] = value;
         }
-        console.log(data)
+        //regex validate name
+        const errorEmail = fieldValidation(data.email, 'email')
+        !errorEmail ? errors.email = 'Debe ingresar un correo válido.' : ''
+        
+        if(errors.length == 0) {
+            console.log('first')
+        }
     }
 
     let errorsAct = {}
@@ -66,7 +71,6 @@
         }
             data[key] = value;
         }
-        console.log(data)
     }
 
 
@@ -76,8 +80,6 @@
 
     <Modal on:close={() => showFormActivity = false} show={showFormActivity} title="Nueva Actividad" subtitle="Ingrese la información">
         <div class="" slot="body">
-            <!-- <h2 class="text-slate-800 text-lg font-semibold">Información</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod iste dolorum laborum itaque eius earum repudiandae sunt impedit non libero.</p> -->
             <form class="py-3" on:submit|preventDefault={sendFormAct}>
                 <div class="w-full md:w-1/2 py-2">
                     <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="actName">
@@ -190,7 +192,7 @@
                     <label  for="account" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Cuenta *
                     </label>
-                    <input id="account" name="account" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errors.account? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'} " type="text" placeholder="Número de cuenta">
+                    <input id="account" name="account" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errors.account? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'} " type="number" placeholder="Número de cuenta">
                     {#if errors.account} 
                     <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errors.account}*</span>
                     {/if}
