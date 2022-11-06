@@ -1,11 +1,29 @@
 <script>
     import Icon from '@iconify/svelte'
     import {getAllData} from '../../utils/firebase/firebaseApi'
-    import {onMount} from 'svelte';
+    import {onMount, onDestroy } from 'svelte';
     import {tree, subjects, treeSubjects} from '../../store.js'
 
-    let subj = {}
     let loading = true
+    let Line;
+    let subjSelected = ''
+    let nextSelected = []
+    let requiredSelected = []
+    let line;
+    let lineStart = [];
+    let lineEnd = [];
+    let cssClass = {
+        bg: 'bg-slate-100',
+        title: 'text-slate-900',
+        subtitle: 'text-slate-500',
+        icon: 'bg-slate-400 text-white'
+    }
+    let cssClassActive = {
+        bg: 'bg-gradient-to-r from-cyan-500 to-blue-500',
+        title: 'text-white',
+        subtitle: 'text-white',
+        icon: 'bg-blue-500 text-white'
+    }
 
     onMount(async () => {
         const slots = await getAllData('tree', '', '')
@@ -17,68 +35,182 @@
 
 
         const {LeaderLine} = await import('../../utils/leader-line.min.js')
-        $treeSubjects.forEach(element => {
-            element.forEach(subject => {
-                console.log(subject)
-                if(subject) {
-                    if(subject.next) {
-                        subject.next.forEach(el => {
-                            if(el != undefined && subject.code != undefined && el != '' && subject.code != '') {
-                                let start  = document.querySelector('#'+subject.code)
-                                let end  = document.querySelector('#'+el)
-                                if(start != undefined && end != undefined) {
-                                    new LeaderLine(LeaderLine.mouseHoverAnchor(start, 'draw', {style: {background: ''}, hoverStyle: {background: ''}}), end, {
-                                        color: '#0abde3', size: 10,
-                                        startPlug: 'behind',
-                                        endPlug: 'disc',
-                                        background: 'null',
-                                        path: 'fluid'
-                                    });
-                                }
-                            }
-                        });
-                    }
-                    if(subject.required) {
-                        subject.required.forEach(el => {
-                            if(el != undefined && subject.code != undefined && el != '' && subject.code != '') {
-                                let start  = document.querySelector('#'+subject.code)
-                                let end  = document.querySelector('#'+el)
-                                if(start != undefined && end != undefined) {
-                                    new LeaderLine(LeaderLine.mouseHoverAnchor(start, 'draw', {style: {background: ''}, hoverStyle: {background: ''}}), end, {
-                                        color: '#BFC4D1', size: 10,
-                                        startPlug: 'behind',
-                                        endPlug: 'disc',
-                                        background: 'null',
-                                        path: 'fluid'
-                                    });
-                                }
-                            }
-                        });
-                    }
-                }
-            });
-        })
+        Line = LeaderLine
     });
 
+    function changeSubject(subject) {
+        lineStart.map((el) => {
+            if(el) {
+                el.remove()
+            }
+        })
+        lineEnd.map((el) => {
+            if(el) {
+                el.remove()
+            }
+        })
+        lineStart = [] 
+        lineEnd = [] 
+
+        subjSelected = subject.code
+        nextSelected = []
+        requiredSelected = []
+
+        subject.next.forEach(element => {
+            nextSelected.push(element)
+        });
+        subject.required.forEach(element => {
+            requiredSelected.push(element)
+        });
+
+        if(subject) {
+            if(subject.next) {
+                subject.next.forEach(el => {
+                    if(el != undefined && subject.code != undefined && el != '' && subject.code != '') {
+                        let start  = document.querySelector('#'+subject.code)
+                        let end  = document.querySelector('#'+el)
+                        if(start != undefined && end != undefined) {
+                            line = new Line(start, end, {
+                                color: '#14b8a6', size: 10,
+                                startPlug: 'behind',
+                                endPlug: 'disc',
+                                background: 'null',
+                                path: 'fluid',
+                                hide: true
+                            });
+                            line['show']('draw');
+                            lineStart.push(line)
+                        }
+                    }
+                });
+            }
+            if(subject.required) {
+                subject.required.forEach(el => {
+                    if(el != undefined && subject.code != undefined && el != '' && subject.code != '') {
+                        let start  = document.querySelector('#'+subject.code)
+                        let end  = document.querySelector('#'+el)
+
+
+                        if(start != undefined && end != undefined) {
+                            line = new Line(start, end, {
+                                color: '#f87171', size: 10,
+                                startPlug: 'behind',
+                                endPlug: 'disc',
+                                background: 'null',
+                                path: 'fluid',
+                                hide: true
+                            });
+                            line['show']('draw');
+                            lineEnd.push(line)
+                        }
+                    }
+                });
+            }
+            
+            $treeSubjects.forEach(element => {
+                element.forEach(element => {
+                    let foundReq = '', foundNext = ''
+                    if(element != undefined) {
+                        let item = document.querySelector('.card-'+element.code)
+                        let icon = document.querySelector('.icon-'+element.code)
+
+                        foundReq = requiredSelected.find(el => el == element.code)
+                        foundNext = nextSelected.find(el => el == element.code)
+
+                        if(foundReq != undefined && foundReq  != '') {
+                            item.classList.add('border-b-8' ,'border-red-400')
+                            icon.classList.add('bg-red-400' ,'text-white')
+                        } else {
+                            if(item != null) {
+                                if(item.classList.contains('border-red-400')) {
+                                    icon.classList.remove('bg-red-400')
+                                    item.classList.remove('border-red-400')
+                                }
+                            }
+                        }
+
+                        // let iconNext = document.querySelector('.icon-'+element.code)
+                        if(foundNext != undefined && foundNext != '') {
+                            item.classList.add('border-t-8' ,'border-teal-500')
+                            icon.classList.add('bg-teal-500' ,'text-white')
+                        } else {
+                            if(item != null) {
+                                if(item.classList.contains('border-teal-500')) {
+                                    item.classList.remove('border-teal-500')
+                                    icon.classList.remove('bg-teal-500')
+                                }
+                            }
+                        }
+                    }
+                    
+                });
+            });
+        }
+    }
+
+    onDestroy( () => {
+        lineStart.map((el) => {
+            if(el) {
+                el.remove()
+            }
+        })
+        lineEnd.map((el) => {
+            if(el) {
+                el.remove()
+            }
+        })
+        lineStart = [] 
+        lineEnd = [] 
+    });
 
 
 
 </script>
 
 {#if !loading}
-<div class=" bg-slate-200">
+<div class="bg-gray-800 items-start pt-8 border-b border-gray-700">
+    <h1 class="text-3xl text-slate-100 font-bold mb-2 text-center">Plan de Estudios</h1>
+    <h2 class="text-lg font-semibold text-gray-100 text-center">Explora las clases correspondientes al plan de estudios de la carrera Ingeniería en Sistemas </h2>
+
+    <div class="container m-auto">
+        <div class="flex flex-row justify-center py-10 text-lg text-slate-100">
+            <div class="flex flex-row mx-4 p-2 bg-slate-700 rounded-md">
+                <div class="rounded-md w-7 h-7 bg-blue-500 mr-3"></div>
+                <h2>Seleccionada</h2>
+            </div>
+            <div class="flex flex-row mx-4 p-2 bg-slate-700 rounded-md">
+                <div class="rounded-md w-7 h-7 bg-red-400 mr-3"></div>
+                <h2>Requerida</h2>
+            </div>  
+            <div class="flex flex-row mx-4 p-2 bg-slate-700 rounded-md">
+                <div class="rounded-md w-7 h-7 bg-teal-500 mr-3"></div>
+                <h2>Apertura</h2>
+            </div>     
+        </div>
+    </div>
+</div>
+
+<div class=" bg-gray-800">
     <div class="container m-auto pt-10">        
         {#each $treeSubjects as slot}
-        <div class="flex flex-row justify-center my-32">
+        <div class="flex flex-row justify-center mt-32">
             {#each slot as subject}
             {#if subject && subject.code != undefined && subject.name != undefined}
-            <div id={subject.code}  class="bg-slate-100 hover:bg-white z-10 shadow mx-7 filter rounded p-5 text-md cursor-pointer hover:shadow-md card">
+            <div id={subject.code} 
+            on:click={changeSubject(subject)} 
+            on:keypress={changeSubject} 
+            class="z-10 shadow border-t-8 border-b-8 border-transparent mx-7 filter rounded p-5 text-md cursor-pointer hover:shadow-md card 
+            {subjSelected == subject.code ? cssClassActive.bg : cssClass.bg} 
+            {'card-'+subject.code}
+            ">
                 <div class="flex flex-center justify-center text-4xl mb-4">
-                    <Icon icon="ph:atom" />
+                    <div class="p-3 rounded-full {subjSelected == subject.code ? cssClassActive.icon : cssClass.icon} {'icon-'+subject.code}">
+                        <Icon icon="ph:atom" />
+                    </div>
                 </div>
-                <h1 class="font-bold text-slate-900 text-center">{subject.name}</h1>
-                <h3 class="text-center text-slate-500 font-semibold text-sm">{subject.code}</h3>
-                <h3 class="text-center text-slate-500 font-semibold text-sm">5 UV</h3>
+                <h1 class="font-bold text-md text-center mb-2 {subjSelected == subject.code ? cssClassActive.title : cssClass.title} {'title-'+subject.code} ">{subject.name}</h1>
+                <h3 class="text-center font-semibold text-sm {subjSelected == subject.code ? cssClassActive.subtitle : cssClass.subtitle} {'subtitle-'+subject.code} ">{subject.code}</h3>
+                <h3 class="text-center font-semibold text-sm {subjSelected == subject.code ? cssClassActive.subtitle : cssClass.subtitle} {'subtitle-'+subject.code} ">5 UV</h3>
             </div>      
             {/if}
             {/each}
