@@ -19,7 +19,7 @@
         icon: 'bg-slate-400 text-white'
     }
     let cssClassActive = {
-        bg: 'bg-gradient-to-r from-cyan-500 to-blue-500',
+        bg: '',
         title: 'text-white',
         subtitle: 'text-white',
         icon: 'bg-blue-500 text-white'
@@ -51,8 +51,15 @@
         })
         lineStart = [] 
         lineEnd = [] 
+        console.log(subjSelected)
+        if(subjSelected != '') {
+            document.querySelector('.card-'+subjSelected).classList.remove('bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
+            document.querySelector('.title-'+subjSelected).classList.remove('text-slate-900')
+        }
 
         subjSelected = subject.code
+        document.querySelector('.card-'+subjSelected).classList.add('border-transparent','bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
+
         nextSelected = []
         requiredSelected = []
 
@@ -106,7 +113,7 @@
                     }
                 });
             }
-            
+
             $treeSubjects.forEach(element => {
                 element.forEach(element => {
                     let foundReq = '', foundNext = ''
@@ -199,8 +206,8 @@
             <div id={subject.code} 
             on:click={changeSubject(subject)} 
             on:keypress={changeSubject} 
-            class="z-10 shadow border-t-8 border-b-8 border-transparent mx-7 filter rounded p-5 text-md cursor-pointer hover:shadow-md card 
-            {subjSelected == subject.code ? cssClassActive.bg : cssClass.bg} 
+            class="z-10 transition-all duration-500 shadow border-t-8 border-b-8 border-transparent mx-7 filter rounded p-5 text-md cursor-pointer hover:shadow-md card 
+            {cssClass.bg} 
             {'card-'+subject.code}
             ">
                 <div class="flex flex-center justify-center text-4xl mb-4">
