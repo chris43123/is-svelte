@@ -4,7 +4,7 @@ import legacy from '@vitejs/plugin-legacy'
 const config = {
 	plugins: [
 		sveltekit(),
-		legacy({ 'node_modules/leader-line/leader-line.min.js': 'LeaderLine' }),
+		legacy({ 'src/utils/leader-line.min.js': 'LeaderLine' }),
 	]
 };
 

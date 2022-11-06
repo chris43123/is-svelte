@@ -1,7 +1,7 @@
 <script>
     import Icon from '@iconify/svelte'
-    import {subjectConverter} from '../utils/firebaseMap'
-    import {getData} from '../utils/firebaseApi'
+    import {subjectConverter} from '../utils/firebase/firebaseMap'
+    import {getData} from '../utils/firebase/firebaseApi'
     import { onMount } from 'svelte'
 
     //Props

@@ -1,5 +1,5 @@
 import {converterDocuments} from './firebaseMap'
-import {db} from '../firebase'
+import {db} from './firebase'
 import { doc, getDoc, getDocs, query, collection } from "firebase/firestore"; 
 
 export async function getData (documents, value, converter = Function) {

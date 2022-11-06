@@ -1,6 +1,6 @@
 <script>
     import {required, fieldValidation} from '../../utils/validations'
-    import {getAllData} from '../../utils/firebaseApi'
+    import {getAllData} from '../../utils/firebase/firebaseApi'
     import { onMount } from 'svelte';
 
     // Components

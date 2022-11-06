@@ -34,7 +34,7 @@
 				</p>
 
 				<a
-					href="#"
+					href="/"
 					class="mt-8 inline-flex items-center rounded border border-slate-900 px-8 py-3 text-slate-900 hover:bg-transparent hover:bg-slate-900 hover:text-slate-50 focus:outline-none active:text-slate-500"
 				>
 					<span class="text-sm font-medium"> Comparte </span>

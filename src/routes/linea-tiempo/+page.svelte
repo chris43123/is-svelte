@@ -1,6 +1,6 @@
 <script>
-    import {studentConverter} from '../../utils/firebaseMap'
-    import {getData} from '../../utils/firebaseApi'
+    import {studentConverter} from '../../utils/firebase/firebaseMap'
+    import {getData} from '../../utils/firebase/firebaseApi'
     import { onMount } from 'svelte';
 
     // Components
