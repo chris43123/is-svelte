@@ -8,6 +8,7 @@
     import Modal from '../../components/Modal.svelte';
     import Alert from '../../components/Alert.svelte';
     import SkeletonCard from '../../components/skeletons/SkeletonCard.svelte';
+    import LeafletMap from '../../components/Leaflet.svelte';
 
     //Variables
     let activities = []
@@ -90,6 +91,13 @@
         }
     }
 
+    //Maps Utilites
+    let latLng = {}
+    function setLatLng(e) {
+        latLng = e.detail
+        console.log(latLng)
+    }
+
     let errorsAct = {}
     async function sendFormAct(e) {
         errorsAct = {}
@@ -111,11 +119,11 @@
             errorsAct.actType = 'Debe seleccionar una de las opciones.'
         }
 
-        console.log(errorsAct)
-        console.log(Object.entries(errorsAct).length === 0)
+        if(Object.entries(latLng).length === 0) {
+            errorsAct.actLatLng = 'Debe marcar una posicion en el mapa.'
+        }
 
         if(Object.entries(errorsAct).length === 0){
-            console.log(data)
             let activity = {
                 name: data.actName,
                 career: data.actCareer,
@@ -133,7 +141,12 @@
             if(actType == 'Virtual') {
                 activity.link = data.actLink
             }
-
+            if(actType == 'Exterior') {
+                console.log('test')
+                activity.latLng = latLng
+            }
+            
+            console.log(activity)
             const response = await createDocument("activities", activity, uuid)
             showFormActivity = false
             alert.show = true
@@ -150,6 +163,7 @@
         }
         
     }
+
 
 
 </script>
@@ -285,6 +299,12 @@
                                 Virtual
                             </label>
                         </div>
+                        <div class="mr-2">
+                            <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="actExterior" value="Exterior" on:click={checkType}>
+                            <label class="form-check-label inline-block text-gray-800" for="actExterior">
+                                Exterior
+                            </label>
+                        </div>
                     </div>
                     {#if errorsAct.actType} 
                     <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actAreas}*</span>
@@ -298,6 +318,19 @@
                     <input id="actPlace" name="actPlace" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actPlace? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Punto de reunión">
                     {#if errorsAct.actPlace} 
                     <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actPlace}*</span>
+                    {/if}
+                </div>
+                {/if}
+
+                {#if actType ==  'Exterior'}
+                <div class="w-full md:w-1/2 py-2">
+                    <label for="actPlace" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Seleccione la ubicación exacta*
+                    </label>
+                    <LeafletMap on:getLatLng={setLatLng} sm/>
+
+                    {#if errorsAct.actLatLng} 
+                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actLatLng}*</span>
                     {/if}
                 </div>
                 {/if}
