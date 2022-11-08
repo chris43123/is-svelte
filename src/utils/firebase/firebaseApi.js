@@ -1,6 +1,6 @@
 import {converterDocuments} from './firebaseMap'
 import {db} from './firebase'
-import { doc, getDoc, getDocs, query, collection } from "firebase/firestore"; 
+import { doc, setDoc, getDoc, getDocs, query, collection } from "firebase/firestore"; 
 
 export async function getData (documents, value, converter = Function) {
     const ref = query(doc(db, documents, value).withConverter(converter));
@@ -23,4 +23,13 @@ export async function getAllData (documents, value='' , q ='', sign) {
     const docSnap = await getDocs(ref)
     
     return converterDocuments(docSnap)
+}
+
+export async function createDocument (coll, data , id) {
+    try {
+        await setDoc(doc(db, coll, id), data);
+        return true
+    } catch (error) {
+        return error
+    }
 }

@@ -20,6 +20,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"firebase": "^9.13.0"
+		"firebase": "^9.13.0",
+		"uuid": "^9.0.0"
 	}
 }

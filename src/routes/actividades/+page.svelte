@@ -1,20 +1,34 @@
 <script>
+    import { v4 as uuidv4 } from 'uuid';
     import {required, fieldValidation} from '../../utils/validations'
-    import {getAllData} from '../../utils/firebase/firebaseApi'
-    import { doc, setDoc } from "firebase/firestore"; 
+    import {getAllData, createDocument} from '../../utils/firebase/firebaseApi'
     import { onMount } from 'svelte';
 
     // Components
     import Modal from '../../components/Modal.svelte';
+    import Alert from '../../components/Alert.svelte';
+    import SkeletonCard from '../../components/skeletons/SkeletonCard.svelte';
 
     //Variables
     let activities = []
     let showFormRegister = false;
-    let showFormActivity = true;
+    let showFormActivity = false;
+    let uuid = uuidv4()
+    let alert = {}
+    let load = ''
+
+
+    async function getActivities() {
+        load = true
+        activities = await getAllData('activities', '', '');
+        load = false
+    }
 
     onMount(async () => {
-        activities = await getAllData('activities', '', '');
+        await getActivities()
     });
+
+
 
     //Activities
     let title, subtitle
@@ -103,12 +117,13 @@
         if(Object.entries(errorsAct).length === 0){
             console.log(data)
             let activity = {
-                name: data.ac,
+                name: data.actName,
                 career: data.actCareer,
                 description: data.actDesc,
                 email: data.actEmailOwner,
                 owner: data.actOwner,
                 hours: data.actHours,
+                date: data.actDate,
                 area: actAreas,
                 type: actType,
             }
@@ -118,8 +133,20 @@
             if(actType == 'Virtual') {
                 activity.link = data.actLink
             }
-            
-            await setDoc(doc(db, "activities", "LA"), activity);
+
+            const response = await createDocument("activities", activity, uuid)
+            showFormActivity = false
+            alert.show = true
+            if(response) {
+                console.log('Enviado')
+                alert.title = 'Éxito'
+                alert.text = 'Actividad guardada exitosamente.'
+                await getActivities()
+            } else {
+                console.log(response)
+                alert.title = 'Error'
+                alert.text = 'Problemas procesando la actividad.'
+            }
         }
         
     }
@@ -128,6 +155,8 @@
 </script>
 
 <div class="container m-auto py-5">
+
+    <Alert show={alert.show} on:close={() => alert.show = false} title="Hola" text="lorem Ipsum Dolor." success/>
 
     <Modal on:close={() => showFormActivity = false} show={showFormActivity} title="Nueva Actividad" subtitle="Ingrese la información">
         <div class="" slot="body">
@@ -350,23 +379,33 @@
     <div class="py-4 font-semibold">
         <h2 class="text-slate-800 text-xl">Este Mes</h2>
         <p class="text-md text-gray-700">Noviembre - 2022</p>
+
+        {#if load == true}
+        <div class="grid grid-cols-4 my-4">
+            {#each [1,2] as n}
+            <SkeletonCard/>
+            {/each}
+        </div>      
+        {:else}
         <div class="grid grid-cols-4 my-4">
 
             {#each activities as item}
             <div class="text-medium mr-2 my-2 p-3 pb-0 border border-gray-200 shadow-sm">
                 <div class="grid grid-cols-2">
                     <h2 class="text-slate-700 text-lg mb-2  whitespace-nowrap text-ellipsis overflow-hidden" title={item.name}>{item.name}</h2>
-                    <h2 class="text-gray-500 text-md mb-2 font-semibold text-end">{convertTimestamp(item.date)}</h2>
+                    <h2 class="text-gray-500 text-md mb-2 font-semibold text-end">{item.date}</h2>
                 </div>
                 <div class="flex flex-row text-xs mb-2">
                     {#each item.area as el}
                     <span class="p-1 bg-orange-100 rounded mr-1 mb-1">{el}</span>
                     {/each}
                 </div>
-                <p class="text-sm mb-2 font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                <div class="flex items-center mb-3">
-                    <img class="w-7 h-7 rounded-full mr-2 cursor-pointer" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Rounded avatar">
-                    <p class="text-sm text-slate-800 cursor-pointer">Denis Villeneuve</p>
+                <p class="text-sm mb-2 font-normal">{item.description}</p>
+                <div>
+                    <a class="flex items-center mb-3" href="mailto:{item.email}">
+                        <img class="w-7 h-7 rounded-full mr-2 cursor-pointer" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Rounded avatar">
+                        <p class="text-sm text-slate-800 cursor-pointer">{item.owner}</p>
+                    </a>
                 </div>
                 <div class="flex flex-row justify-between border-b border-gray-200 pb-4">
                     <div class="flex flex-row justify-end text-sm">
@@ -383,27 +422,35 @@
             {/each}
 
         </div>
+        {/if}
     </div>
 
     <div class="py-4 font-semibold">
         <h2 class="text-slate-800 text-xl">Próximas Actividades</h2>
+        {#if load == true}
+        <div class="grid grid-cols-4 my-4">
+            {#each [1,2,3] as n}
+            <SkeletonCard/>
+            {/each}
+        </div>      
+        {:else}
         <div class="grid grid-cols-4 my-4">
 
             {#each activities as item}
             <div class="text-medium mr-2 my-2 p-3 pb-0 border border-gray-200 shadow-sm">
                 <div class="grid grid-cols-2">
                     <h2 class="text-slate-700 text-lg mb-2  whitespace-nowrap text-ellipsis overflow-hidden" title={item.name}>{item.name}</h2>
-                    <h2 class="text-gray-500 text-md mb-2 font-semibold text-end">{convertTimestamp(item.date)}</h2>
+                    <h2 class="text-gray-500 text-md mb-2 font-semibold text-end">{item.date}</h2>
                 </div>
                 <div class="flex flex-row text-xs mb-2">
                     {#each item.area as el}
                     <span class="p-1 bg-orange-100 rounded mr-1 mb-1">{el}</span>
                     {/each}
                 </div>
-                <p class="text-sm mb-2 font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
+                <p class="text-sm mb-2 font-normal">{item.description}</p>
                 <div class="flex items-center mb-3">
                     <img class="w-7 h-7 rounded-full mr-2 cursor-pointer" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Rounded avatar">
-                    <p class="text-sm text-slate-800 cursor-pointer">Denis Villeneuve</p>
+                    <p class="text-sm text-slate-800 cursor-pointer">{item.owner}</p>
                 </div>
                 <div class="flex flex-row justify-between border-b border-gray-200 pb-4">
                     <div class="flex flex-row justify-end text-sm">
@@ -417,38 +464,8 @@
                 </div>
                 <button on:click={selectActivity(item)} class="p-3 text-center text-slate-600 block w-full hover:text-blue-800 focus:outline-0">Inscribirse</button>
             </div>
-            {/each}
-            {#each activities as item}
-            <div class="text-medium mr-2 my-2 p-3 pb-0 border border-gray-200 shadow-sm">
-                <div class="grid grid-cols-2">
-                    <h2 class="text-slate-700 text-lg mb-2  whitespace-nowrap text-ellipsis overflow-hidden" title={item.name}>{item.name}</h2>
-                    <h2 class="text-gray-500 text-md mb-2 font-semibold text-end">{convertTimestamp(item.date)}</h2>
-                </div>
-                <div class="flex flex-row text-xs mb-2">
-                    {#each item.area as el}
-                    <span class="p-1 bg-orange-100 rounded mr-1 mb-1">{el}</span>
-                    {/each}
-                </div>
-                <p class="text-sm mb-2 font-normal">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                <div class="flex items-center mb-3">
-                    <img class="w-7 h-7 rounded-full mr-2 cursor-pointer" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Rounded avatar">
-                    <p class="text-sm text-slate-800 cursor-pointer">Denis Villeneuve</p>
-                </div>
-                <div class="flex flex-row justify-between border-b border-gray-200 pb-4">
-                    <div class="flex flex-row justify-end text-sm">
-                        <p class="mr-2 text-slate-700">Cant.</p>
-                        <p class="text-gray-400 text-sm">{item.hours}hrs</p>
-                    </div>
-                    <div class="flex flex-row justify-end text-sm">
-                        <p class="mr-2 text-slate-700">Horario</p>
-                        <p class="text-gray-400"> 7:00 am - 11:00 am</p>
-                    </div>
-                </div>
-                <button on:click={selectActivity(item)} class="p-3 text-center text-slate-600 block w-full hover:text-blue-800 focus:outline-0">Inscribirse</button>
-            </div>
-            {/each}
-       
-
+            {/each}       
         </div>
+        {/if}
     </div>
 </div>

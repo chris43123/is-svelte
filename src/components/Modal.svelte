@@ -1,13 +1,12 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-    import Icon from '@iconify/svelte';
+  import { createEventDispatcher } from 'svelte';
+  import Icon from '@iconify/svelte';
 
-    export let show = false, title='Title', subtitle='Subtitle';
+  export let show = false, title='Title', subtitle='Subtitle';
 
 	const dispatch = createEventDispatcher();
 
 	function closeModal() {
-        console.log('test')
 		dispatch('close');
 	}
 </script>
