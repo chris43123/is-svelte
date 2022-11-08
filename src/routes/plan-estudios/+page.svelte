@@ -51,14 +51,16 @@
         })
         lineStart = [] 
         lineEnd = [] 
-        console.log(subjSelected)
         if(subjSelected != '') {
             document.querySelector('.card-'+subjSelected).classList.remove('bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
             document.querySelector('.title-'+subjSelected).classList.remove('text-slate-900')
+            document.querySelector('.icon-'+subjSelected).classList.remove('bg-blue-500')
         }
 
         subjSelected = subject.code
         document.querySelector('.card-'+subjSelected).classList.add('border-transparent','bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
+        document.querySelector('.icon-'+subjSelected).classList.add('bg-blue-500')
+
 
         nextSelected = []
         requiredSelected = []
@@ -83,6 +85,8 @@
                                 endPlug: 'disc',
                                 background: 'null',
                                 path: 'fluid',
+                                endSocket: 'top',
+                                startSocket: 'bottom',
                                 hide: true
                             });
                             line['show']('draw');
@@ -100,10 +104,12 @@
 
                         if(start != undefined && end != undefined) {
                             line = new Line(start, end, {
-                                color: '#f87171', size: 10,
+                                color: '#fdba74', size: 10,
                                 startPlug: 'behind',
                                 endPlug: 'disc',
                                 background: 'null',
+                                endSocket: 'bottom',
+                                startSocket: 'top',
                                 path: 'fluid',
                                 hide: true
                             });
@@ -125,18 +131,16 @@
                         foundNext = nextSelected.find(el => el == element.code)
 
                         if(foundReq != undefined && foundReq  != '') {
-                            item.classList.add('border-b-8' ,'border-red-400')
-                            icon.classList.add('bg-red-400' ,'text-white')
+                            item.classList.add('border-b-8' ,'border-orange-300')
+                            icon.classList.add('bg-orange-300' ,'text-white')
                         } else {
                             if(item != null) {
-                                if(item.classList.contains('border-red-400')) {
-                                    icon.classList.remove('bg-red-400')
-                                    item.classList.remove('border-red-400')
+                                if(item.classList.contains('border-orange-300')) {
+                                    icon.classList.remove('bg-orange-300')
+                                    item.classList.remove('border-orange-300')
                                 }
                             }
                         }
-
-                        // let iconNext = document.querySelector('.icon-'+element.code)
                         if(foundNext != undefined && foundNext != '') {
                             item.classList.add('border-t-8' ,'border-teal-500')
                             icon.classList.add('bg-teal-500' ,'text-white')
@@ -186,7 +190,7 @@
                 <h2>Seleccionada</h2>
             </div>
             <div class="flex flex-row mx-4 p-2 bg-slate-700 rounded-md">
-                <div class="rounded-md w-7 h-7 bg-red-400 mr-3"></div>
+                <div class="rounded-md w-7 h-7 bg-orange-300 mr-3"></div>
                 <h2>Requerida</h2>
             </div>  
             <div class="flex flex-row mx-4 p-2 bg-slate-700 rounded-md">
@@ -211,7 +215,7 @@
             {'card-'+subject.code}
             ">
                 <div class="flex flex-center justify-center text-4xl mb-4">
-                    <div class="p-3 rounded-full {subjSelected == subject.code ? cssClassActive.icon : cssClass.icon} {'icon-'+subject.code}">
+                    <div class="p-3 bg-slate-400 rounded-full {cssClass.icon} {'icon-'+subject.code}">
                         <Icon icon="ph:atom" />
                     </div>
                 </div>

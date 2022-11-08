@@ -1,15 +1,19 @@
 <script>
     import {required, fieldValidation} from '../../utils/validations'
     import {getAllData} from '../../utils/firebase/firebaseApi'
+    import { doc, setDoc } from "firebase/firestore"; 
     import { onMount } from 'svelte';
 
     // Components
     import Modal from '../../components/Modal.svelte';
 
+    //Variables
     let activities = []
+    let showFormRegister = false;
+    let showFormActivity = true;
+
     onMount(async () => {
         activities = await getAllData('activities', '', '');
-        console.log(activities)
     });
 
     //Activities
@@ -30,12 +34,26 @@
         date = dd + '/' + mm + '/' + yyyy;
         return date;
     }
-    
-    //Modal Utilities
-    let showFormRegister = false;
-    let showFormActivity = false;
+
+    //Checbox Utilities
+    let actAreas = []
+    function checkArea(e) {
+        if(e.target.checked) {
+            actAreas.push(e.target.value);
+        } else {
+            actAreas = actAreas.filter((item) => item !== e.target.value)
+        }
+    }
+
+    //Radio Utilities
+    let actType = ''
+    function checkType(e) {
+        actType = e.target.value;
+        console.log(actType)
+    }
 
     //Function submit
+    let actLink = '';
     let errors = {}
     function sendForm(e) {
         errors = {}
@@ -49,7 +67,7 @@
             }
             data[key] = value;
         }
-        //regex validate name
+
         const errorEmail = fieldValidation(data.email, 'email')
         !errorEmail ? errors.email = 'Debe ingresar un correo válido.' : ''
         
@@ -59,7 +77,7 @@
     }
 
     let errorsAct = {}
-    function sendFormAct(e) {
+    async function sendFormAct(e) {
         errorsAct = {}
         const formData = new FormData(e.target);
 
@@ -71,6 +89,39 @@
         }
             data[key] = value;
         }
+
+        if(actAreas.length <= 0) {
+            errorsAct.actAreas = 'Debe seleccionar una de las opciones.'
+        }
+        if(actType == '') {
+            errorsAct.actType = 'Debe seleccionar una de las opciones.'
+        }
+
+        console.log(errorsAct)
+        console.log(Object.entries(errorsAct).length === 0)
+
+        if(Object.entries(errorsAct).length === 0){
+            console.log(data)
+            let activity = {
+                name: data.ac,
+                career: data.actCareer,
+                description: data.actDesc,
+                email: data.actEmailOwner,
+                owner: data.actOwner,
+                hours: data.actHours,
+                area: actAreas,
+                type: actType,
+            }
+            if(actType == 'Presencial') {
+                activity.place = data.actPlace
+            } 
+            if(actType == 'Virtual') {
+                activity.link = data.actLink
+            }
+            
+            await setDoc(doc(db, "activities", "LA"), activity);
+        }
+        
     }
 
 
@@ -81,17 +132,70 @@
     <Modal on:close={() => showFormActivity = false} show={showFormActivity} title="Nueva Actividad" subtitle="Ingrese la información">
         <div class="" slot="body">
             <form class="py-3" on:submit|preventDefault={sendFormAct}>
-                <div class="w-full md:w-1/2 py-2">
-                    <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="actName">
-                      Nombre de la actividad *
-                    </label>
-                    <input id="actName" name="actName" 
-                        class="appearance-none block w-full border-gray-200 text-gray-700 border rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border {errorsAct.actName? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Ej. Caminata">
-                    {#if errorsAct.actName} 
-                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actName}*</span>
-                    {/if}
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="py-2">
+                        <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="actName">
+                          Nombre de la actividad *
+                        </label>
+                        <input id="actName" name="actName" 
+                            class="appearance-none block w-full border-gray-200 text-gray-700 border rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border {errorsAct.actName? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Ej. Caminata">
+                        {#if errorsAct.actName} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actName}*</span>
+                        {/if}
+                    </div>
+                    <div class="py-2">
+                        <label for="actCareer" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Carrera *
+                        </label>
+                        <input id="actCareer" name="actCareer" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actCareer? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Carrera organizadora">
+                        {#if errorsAct.actCareer} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actCareer}*</span>
+                        {/if}
+                    </div>
                 </div>
-                <div class="w-full md:w-1/2 py-2">
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="py-2">
+                        <label for="actOwner" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Encargado *
+                        </label>
+                        <input id="actOwner" name="actOwner" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actOwner? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Encargado de la actividad">
+                        {#if errorsAct.actOwner} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actOwner}*</span>
+                        {/if}
+                    </div>
+                    <div class="py-2">
+                        <label for="actEmailOwner" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Correo*
+                        </label>
+                        <input id="actEmailOwner" name="actEmailOwner" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actEmailOwner? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="email" placeholder="Correo del encargado">
+                        {#if errorsAct.actEmailOwner} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actEmailOwner}*</span>
+                        {/if}
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="py-2">
+                        <label for="actHours" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Horas *
+                        </label>
+                        <input id="actHours" name="actHours" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actHours? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="number" placeholder="Horas vinculantes">
+                        {#if errorsAct.actHours} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actHours}*</span>
+                        {/if}
+                    </div>
+                    <div class="py-2">
+                        <label for="actDate" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Fecha *
+                        </label>
+                        <input id="actDate" name="actDate" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actDate? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="date" >
+                        {#if errorsAct.actDate} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actDate}*</span>
+                        {/if}
+                    </div>
+                </div>
+                
+                
+                <div class="py-2">
                     <label  for="actDesc" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Descripción *
                     </label>
@@ -100,73 +204,87 @@
                     <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actDesc}*</span>
                     {/if}
                 </div>
-                <div class="w-full md:w-1/2 py-2">
-                    <label for="actCareer" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Carrera *
-                    </label>
-                    <input id="actCareer" name="actCareer" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actCareer? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Carrera organizadora">
-                    {#if errorsAct.actCareer} 
-                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actCareer}*</span>
-                    {/if}
-                </div>
-                <div class="w-full md:w-1/2 py-2">
-                    <label for="actHours" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Horas *
-                    </label>
-                    <input id="actHours" name="actHours" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actHours? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="number" placeholder="Horas vinculantes">
-                    {#if errorsAct.actHours} 
-                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actHours}*</span>
-                    {/if}
-                </div>
-                <div class="w-full md:w-1/2 py-2">
-                    <label for="actOwner" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Encargado *
-                    </label>
-                    <input id="actOwner" name="actOwner" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actOwner? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Encargado de la actividad">
-                    {#if errorsAct.actOwner} 
-                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actOwner}*</span>
-                    {/if}
-                </div>
+
                 <div class="w-full md:w-1/2 py-2">
                     <label for="actOwner" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                       Índole *
                     </label>
                     <div class="flex flex-row">
                         <div class="mr-2">
-                            <input class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 focus:ring-0 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="scientific">
-                            <label class="inline-block text-gray-800" for="scientific">
+                            <input class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 focus:ring-0 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="cientifico" value="Cientifico" on:click={checkArea}>
+                            <label class="inline-block text-gray-800" for="cientifico">
                                 Científico
                             </label>
                         </div>
                         <div class="mr-2">
-                            <input class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 focus:ring-0 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="social">
+                            <input class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 focus:ring-0 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="social" value="Social" on:click={checkArea}>
                             <label class="finline-block text-gray-800" for="social">
                                 Social
                             </label>
                         </div>
                         <div class="mr-2">
-                            <input class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 focus:ring-0 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="sport">
-                            <label class="finline-block text-gray-800" for="sport">
+                            <input class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 focus:ring-0 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="deporte" value="Deporte" on:click={checkArea}>
+                            <label class="finline-block text-gray-800" for="deporte">
                                 Deporte
                             </label>
                         </div>
                         <div class="mr-2">
-                            <input class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-60 focus:ring-0 focus:outline-0 transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="cultural">
+                            <input class="appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-60 focus:ring-0 focus:outline-0 transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" id="cultural" value="cultural" on:click={checkArea}>
                             <label class="finline-block text-gray-800" for="cultural">
                                 Cultural
                             </label>
                         </div>
                     </div>
-                </div>
-                <div class="w-full md:w-1/2 py-2">
-                    <label for="actDate" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-                      Fecha *
-                    </label>
-                    <input id="actDate" name="actDate" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actDate? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="date" >
-                    {#if errorsAct.actDate} 
-                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actDate}*</span>
+                    {#if errorsAct.actAreas} 
+                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actAreas}*</span>
                     {/if}
                 </div>
+                <div class="w-full md:w-1/2 py-2">
+                    <label for="actOwner" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Tipo de actividad *
+                    </label>
+                    <div class="flex flex-row">
+                        <div class="mr-2">
+                            <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="actPres" value="Presencial" on:click={checkType}>
+                            <label class="form-check-label inline-block text-gray-800" for="actPres">
+                                Presencial
+                            </label>
+                        </div>
+                        <div class="mr-2">
+                            <input class="form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="flexRadioDefault" id="actVirtual" value="Virtual" on:click={checkType}>
+                            <label class="form-check-label inline-block text-gray-800" for="actVirtual">
+                                Virtual
+                            </label>
+                        </div>
+                    </div>
+                    {#if errorsAct.actType} 
+                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actAreas}*</span>
+                    {/if}
+                </div>
+                {#if actType ==  'Presencial'}
+                <div class="w-full md:w-1/2 py-2">
+                    <label for="actPlace" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Lugar*
+                    </label>
+                    <input id="actPlace" name="actPlace" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actPlace? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Punto de reunión">
+                    {#if errorsAct.actPlace} 
+                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actPlace}*</span>
+                    {/if}
+                </div>
+                {/if}
+
+                {#if actType ==  'Virtual'}
+                <div class="w-full md:w-1/2 py-2">
+                    <label for="actLink" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                      Enlace a la reunión*
+                    </label>
+                    <input id="actLink" name="actLink" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actLink? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="text" placeholder="Enlace a la reunión">
+                    {#if errorsAct.actLink} 
+                    <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actLink}*</span>
+                    {/if}
+                </div>
+                {/if}
+
                 <button type="submit" class="mt-3 text-sm block w-full p-3 bg-teal-500 text-white font-bold uppercase">Enviar</button>
             </form>
         </div>

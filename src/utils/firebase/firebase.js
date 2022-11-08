@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
     apiKey: "AIzaSyCVrNYGnCYbby0O09Yfw34KavsKCY1rRfQ",
     authDomain: "proyecto-svelte.firebaseapp.com",
@@ -9,6 +8,7 @@ const firebaseConfig = {
     appId: "1:985769635770:web:ddf8e9fc138bf9a8fcf783"
 };
 
+import { getFirestore } from "firebase/firestore";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
