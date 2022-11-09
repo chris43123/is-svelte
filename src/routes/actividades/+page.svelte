@@ -1,4 +1,5 @@
 <script>
+    import Icon from '@iconify/svelte';
     import { v4 as uuidv4 } from 'uuid';
     import {required, fieldValidation} from '../../utils/validations'
     import {getAllData, createDocument} from '../../utils/firebase/firebaseApi'
@@ -118,10 +119,15 @@
         if(actType == '') {
             errorsAct.actType = 'Debe seleccionar una de las opciones.'
         }
-
-        if(Object.entries(latLng).length === 0) {
-            errorsAct.actLatLng = 'Debe marcar una posicion en el mapa.'
+        
+        if(actType == 'Exterior') {
+            if(Object.entries(latLng).length === 0) {
+                errorsAct.actLatLng = 'Debe marcar una posicion en el mapa.'
+            }
         }
+        
+
+        console.log(errorsAct)
 
         if(Object.entries(errorsAct).length === 0){
             let activity = {
@@ -142,11 +148,13 @@
                 activity.link = data.actLink
             }
             if(actType == 'Exterior') {
-                console.log('test')
-                activity.latLng = latLng
+                activity.lat = latLng.lat
+                activity.lng = latLng.lng
             }
             
             console.log(activity)
+            console.log(uuid)
+
             const response = await createDocument("activities", activity, uuid)
             showFormActivity = false
             alert.show = true
@@ -160,6 +168,8 @@
                 alert.title = 'Error'
                 alert.text = 'Problemas procesando la actividad.'
             }
+        } else {
+            console.log('test2')
         }
         
     }
@@ -170,7 +180,7 @@
 
 <div class="container m-auto py-5">
 
-    <Alert show={alert.show} on:close={() => alert.show = false} title="Hola" text="lorem Ipsum Dolor." success/>
+    <Alert show={alert.show} on:close={() => alert.show = false} title={alert.title} text={alert.text} success/>
 
     <Modal on:close={() => showFormActivity = false} show={showFormActivity} title="Nueva Actividad" subtitle="Ingrese la información">
         <div class="" slot="body">
@@ -434,6 +444,24 @@
                     {/each}
                 </div>
                 <p class="text-sm mb-2 font-normal">{item.description}</p>
+                {#if item.type == 'Exterior'}
+                <a href="https://www.openstreetmap.org/#map=16/{item.lat}/{item.lng}" target="blank" class="mb-2 flex flex-row items-center">
+                    <span class="pr-2 cursor-pointer">Ubicación</span>
+                    <Icon icon="ph:map-pin-fill" class="text-lg cursor-pointer" />
+                </a>
+                {/if}
+                {#if item.type == 'Virtual'}
+                <a href="{item.link}" target="blank" class="mb-2 flex flex-row items-center">
+                    <span class="pr-2 cursor-pointer">Enlace a la reunión</span>
+                    <Icon icon="ph:link-bold" class="cursor-pointer" />
+                </a>
+                {/if}
+                {#if item.type == 'Presencial'}
+                <div class="mb-2 flex flex-row items-center">
+                    <span class="pr-2">{item.place}</span>
+                    <Icon icon="ph:map-trifold-bold" class="text-lg" />
+                </div>
+                {/if}
                 <div>
                     <a class="flex items-center mb-3" href="mailto:{item.email}">
                         <img class="w-7 h-7 rounded-full mr-2 cursor-pointer" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Rounded avatar">

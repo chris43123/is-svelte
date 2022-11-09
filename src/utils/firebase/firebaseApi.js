@@ -26,10 +26,7 @@ export async function getAllData (documents, value='' , q ='', sign) {
 }
 
 export async function createDocument (coll, data , id) {
-    try {
-        await setDoc(doc(db, coll, id), data);
-        return true
-    } catch (error) {
-        return error
-    }
+    const res = await setDoc(doc(db, coll, id), data);
+    console.log(res)
+    return true
 }

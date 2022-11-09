@@ -27,7 +27,7 @@
       </ul>
       <ul class="flex flex-col lg:flex-row list-none lg:ml-auto items-center">
         <li class="inline-block relative">
-          <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/plan-estudios" onclick="openDropdown(event,'demo-pages-dropdown')">
+          <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/plan-estudios">
             Plan de Estudios
           </a>
           <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="demo-pages-dropdown">

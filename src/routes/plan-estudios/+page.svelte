@@ -50,14 +50,18 @@
             }
         })
         lineStart = [] 
-        lineEnd = [] 
+        lineEnd = []
+        
         if(subjSelected != '') {
             document.querySelector('.card-'+subjSelected).classList.remove('bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
             document.querySelector('.title-'+subjSelected).classList.remove('text-slate-900')
             document.querySelector('.icon-'+subjSelected).classList.remove('bg-blue-500')
+            document.querySelector('.card-'+subjSelected).classList.add('opacity-50')
         }
 
         subjSelected = subject.code
+
+        document.querySelector('.card-'+subjSelected).classList.remove('opacity-50')
         document.querySelector('.card-'+subjSelected).classList.add('border-transparent','bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
         document.querySelector('.icon-'+subjSelected).classList.add('bg-blue-500')
 
@@ -131,6 +135,7 @@
                         foundNext = nextSelected.find(el => el == element.code)
 
                         if(foundReq != undefined && foundReq  != '') {
+                            item.classList.remove('opacity-50')
                             item.classList.add('border-b-8' ,'border-orange-300')
                             icon.classList.add('bg-orange-300' ,'text-white')
                         } else {
@@ -138,10 +143,14 @@
                                 if(item.classList.contains('border-orange-300')) {
                                     icon.classList.remove('bg-orange-300')
                                     item.classList.remove('border-orange-300')
+                                    if(subjSelected != element.code) {
+                                        item.classList.add('opacity-50')
+                                    }
                                 }
                             }
                         }
                         if(foundNext != undefined && foundNext != '') {
+                            item.classList.remove('opacity-50')
                             item.classList.add('border-t-8' ,'border-teal-500')
                             icon.classList.add('bg-teal-500' ,'text-white')
                         } else {
@@ -149,6 +158,9 @@
                                 if(item.classList.contains('border-teal-500')) {
                                     item.classList.remove('border-teal-500')
                                     icon.classList.remove('bg-teal-500')
+                                    if(subjSelected != element.code) {
+                                        item.classList.add('opacity-50')
+                                    }
                                 }
                             }
                         }
@@ -210,7 +222,7 @@
             <div id={subject.code} 
             on:click={changeSubject(subject)} 
             on:keypress={changeSubject} 
-            class="z-10 transition-all duration-500 shadow border-t-8 border-b-8 border-transparent mx-7 filter rounded p-5 text-md cursor-pointer hover:shadow-md card 
+            class="transition-all opacity-50 duration-500 shadow border-t-8 border-b-8 border-transparent mx-7 filter rounded p-5 text-md cursor-pointer hover:shadow-md card 
             {cssClass.bg} 
             {'card-'+subject.code}
             ">
