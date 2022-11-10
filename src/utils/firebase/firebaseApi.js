@@ -1,6 +1,7 @@
 import {converterDocuments} from './firebaseMap'
 import {db} from './firebase'
-import { doc, setDoc, getDoc, getDocs, query, collection } from "firebase/firestore"; 
+import { doc, setDoc, getDoc, getDocs, query, collection, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"; 
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export async function getData (documents, value, converter = Function) {
     const ref = query(doc(db, documents, value).withConverter(converter));
@@ -30,3 +31,26 @@ export async function createDocument (coll, data , id) {
     console.log(res)
     return true
 }
+
+export async function updateDocument(coll, data , id, prop) {
+    if(prop == 'users') {
+        const res = await updateDoc(doc(db, coll, id), {
+            users: arrayUnion(data)
+        });
+        return true
+    }
+}
+
+export async  function uploadFile(file) {
+    console.log(file)
+    console.log(file.name)
+    const storage = getStorage();
+    const storageRef = ref(storage, file.name);
+
+    const snapshot = await uploadBytes(storageRef, file)
+    const url = await getDownloadURL(ref(storage, snapshot.metadata.fullPath))
+    let res = {success: true, url}
+    console.log(res)
+    return res
+}
+

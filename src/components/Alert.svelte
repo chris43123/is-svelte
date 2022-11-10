@@ -13,7 +13,7 @@
 </script>
 
 {#if show}
-<div class="w-full absolute left-0 my-3 bottom-0">
+<div class="z-100 w-full fixed left-0 my-3 bottom-0">
     <div class="w-11/12 max-w-md p-4 text-slate-700 flex flex-row border-l-4 shadow-lg justify-between m-auto font-semibold text 
         {success ? 'border-green-600 bg-green-50': ''}
         {danger ? 'border-rose-500 bg-rose-50': ''}

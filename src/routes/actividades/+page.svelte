@@ -2,7 +2,7 @@
     import Icon from '@iconify/svelte';
     import { v4 as uuidv4 } from 'uuid';
     import {required, fieldValidation} from '../../utils/validations'
-    import {getAllData, createDocument} from '../../utils/firebase/firebaseApi'
+    import {getAllData, createDocument, updateDocument, uploadFile} from '../../utils/firebase/firebaseApi'
     import { onMount } from 'svelte';
 
     // Components
@@ -10,12 +10,14 @@
     import Alert from '../../components/Alert.svelte';
     import SkeletonCard from '../../components/skeletons/SkeletonCard.svelte';
     import LeafletMap from '../../components/Leaflet.svelte';
+    import Spinner from '../../components/Spinner.svelte';
 
     //Variables
     let activities = []
     let showFormRegister = false;
     let showFormActivity = false;
     let uuid = uuidv4()
+    let uuid2 = uuidv4()
     let alert = {}
     let load = ''
 
@@ -33,10 +35,9 @@
 
 
     //Activities
-    let title, subtitle
+    let actSelected
     function selectActivity(act) {
-        title = act.name
-        subtitle = 'Lorem ipsum dolor sit amet'
+        actSelected = act
         showFormRegister = true
     }
 
@@ -68,10 +69,35 @@
         console.log(actType)
     }
 
-    //Function submit
-    let actLink = '';
+    //Image
+    let actImage = '', actImageName, loadImage
+    async function changeImage(e) {
+        console.log(e.target.files)
+        let file = e.target.files[0]
+        actImageName = file.name
+        // console.log(file)
+        loadImage = true
+        const res = await uploadFile(file)
+        console.log(res)
+        loadImage = false
+        if(res.success) {
+            actImage = res.url
+        } else {
+            errors.actImage = 'Ocurrio un error al subir la imagen'
+        }
+    }
+
+    //Maps Utilites
+    let latLng = {}
+    function setLatLng(e) {
+        latLng = e.detail
+    }
+
+    //Send Form Register
     let errors = {}
-    function sendForm(e) {
+    async function sendForm(e) {
+        console.log(actSelected)
+
         errors = {}
         const formData = new FormData(e.target);
 
@@ -87,18 +113,23 @@
         const errorEmail = fieldValidation(data.email, 'email')
         !errorEmail ? errors.email = 'Debe ingresar un correo válido.' : ''
         
-        if(errors.length == 0) {
-            console.log('first')
+        if(Object.entries(errors).length === 0) {
+            const response = await updateDocument("activitiesRegister", data, actSelected.id, 'users')
+            showFormActivity = false
+            alert.show = true
+            if(response) {
+                alert.title = 'Éxito'
+                alert.text = 'Registro Exitoso.'
+            } else {
+                console.log(response)
+                alert.title = 'Error'
+                alert.text = 'Hubo un error al registrarse a la actividad.'
+            }
         }
     }
 
-    //Maps Utilites
-    let latLng = {}
-    function setLatLng(e) {
-        latLng = e.detail
-        console.log(latLng)
-    }
 
+    //Send Form Activity
     let errorsAct = {}
     async function sendFormAct(e) {
         errorsAct = {}
@@ -119,6 +150,12 @@
         if(actType == '') {
             errorsAct.actType = 'Debe seleccionar una de las opciones.'
         }
+        console.log(actImage)
+
+        if(actImage == '') {
+            errorsAct.actImage = 'Debe cargar una imagen.'
+        }
+        
         
         if(actType == 'Exterior') {
             if(Object.entries(latLng).length === 0) {
@@ -126,20 +163,21 @@
             }
         }
         
-
-        console.log(errorsAct)
-
         if(Object.entries(errorsAct).length === 0){
             let activity = {
+                id: uuid,
                 name: data.actName,
                 career: data.actCareer,
                 description: data.actDesc,
                 email: data.actEmailOwner,
                 owner: data.actOwner,
                 hours: data.actHours,
+                start: data.actStart,
+                end: data.actEnd,
                 date: data.actDate,
                 area: actAreas,
                 type: actType,
+                image: actImage
             }
             if(actType == 'Presencial') {
                 activity.place = data.actPlace
@@ -151,11 +189,12 @@
                 activity.lat = latLng.lat
                 activity.lng = latLng.lng
             }
-            
-            console.log(activity)
-            console.log(uuid)
 
+            console.log(uuid)
+            console.log(uuid2)
             const response = await createDocument("activities", activity, uuid)
+            const res = await createDocument("activitiesRegister", {idAct: uuid, name: activity.name}, uuid)
+
             showFormActivity = false
             alert.show = true
             if(response) {
@@ -184,7 +223,7 @@
 
     <Modal on:close={() => showFormActivity = false} show={showFormActivity} title="Nueva Actividad" subtitle="Ingrese la información">
         <div class="" slot="body">
-            <form class="py-3" on:submit|preventDefault={sendFormAct}>
+            <form class="pb-3" on:submit|preventDefault={sendFormAct}>
                 <div class="grid grid-cols-2 gap-2">
                     <div class="py-2">
                         <label class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" for="actName">
@@ -228,6 +267,26 @@
                 </div>
                 <div class="grid grid-cols-2 gap-2">
                     <div class="py-2">
+                        <label for="actStart" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Hora Inicio *
+                        </label>
+                        <input id="actStart" name="actStart" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actStart? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="time" placeholder="Hora inicio de la act.">
+                        {#if errorsAct.actStart} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actStart}*</span>
+                        {/if}
+                    </div>
+                    <div class="py-2">
+                        <label for="actEnd" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                          Hora Fin*
+                        </label>
+                        <input id="actEnd" name="actEnd" class="appearance-none block w-full bg-gray-100 text-gray-700 border border-gray-200 rounded outline-0 focus:outline-0 focus:ring-0 focus:bg-white focus:border focus:border-slate-500 {errorsAct.actEnd? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="time" placeholder="Hora final de la act.">
+                        {#if errorsAct.actEnd} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actEnd}*</span>
+                        {/if}
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="py-2">
                         <label for="actHours" class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
                           Horas *
                         </label>
@@ -256,6 +315,27 @@
                     {#if errorsAct.actDesc} 
                     <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actDesc}*</span>
                     {/if}
+                </div>
+
+                <div class="">
+                    <div class="py-2">
+                        <span class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+                            Subir Imagen *
+                        </span>
+                        <!-- <span class="text-sm italic mb-3">Espere mientras se sube la imagen.</span> -->
+                        <input on:change={changeImage} id="actImage" name="actImage" class="hidden {errorsAct.actOwner? 'bg-red-50 ring-1 ring-red-500' : 'bg-gray-100'}" type="file" placeholder="Formato JPG, PNG, JPEG">
+                        <div class="flex items-center">
+                            <label for="actImage" class="p-2 border bg-gray-100 border-gray-300 rounded cursor-pointer mr-2">
+                                {actImageName ? actImageName : 'Agregar Imagen *'}
+                            </label>
+                            {#if loadImage}
+                            <Spinner/>
+                            {/if}
+                        </div>
+                        {#if errorsAct.actImage} 
+                        <span class="inline-block text-red-600 bg-red-100 rounded p-1 text-xs font-medium mt-2">{errorsAct.actImage}*</span>
+                        {/if}
+                    </div>
                 </div>
 
                 <div class="w-full md:w-1/2 py-2">
@@ -362,10 +442,10 @@
         </div>
     </Modal>
 
-    <Modal on:close={() => showFormRegister = false} show={showFormRegister} {title} {subtitle}>
+    <Modal on:close={() => showFormRegister = false} show={showFormRegister} title="Nuevo Registro" subtitle="Ingrese la información requerida">
         <div class="" slot="body">
-            <h2 class="text-slate-800 text-lg font-semibold">Información</h2>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod iste dolorum laborum itaque eius earum repudiandae sunt impedit non libero.</p>
+            <h2 class="text-slate-800 text-lg font-semibold">{actSelected.name}</h2>
+            <p>{actSelected.description}</p>
 
             <form class="py-3" on:submit|preventDefault={sendForm}>
                 <div class="w-full md:w-1/2 py-2">
@@ -433,52 +513,66 @@
         <div class="grid grid-cols-4 my-4">
 
             {#each activities as item}
-            <div class="text-medium mr-2 my-2 p-3 pb-0 border border-gray-200 shadow-sm">
-                <div class="grid grid-cols-2">
-                    <h2 class="text-slate-700 text-lg mb-2  whitespace-nowrap text-ellipsis overflow-hidden" title={item.name}>{item.name}</h2>
-                    <h2 class="text-gray-500 text-md mb-2 font-semibold text-end">{item.date}</h2>
+            <div class="text-medium mr-2 my-2 border border-gray-200 rounded shadow-sm">
+                <div class="relative">
+                    <div class="bg-gradient-to-r from-cyan-500 to-blue-500 mt-0 h-56 max-h-56 w-full">
+
+                    </div>
+                    <div class="absolute top-0 w-full rounded">
+                        {#if item.image}
+                        <img class="mt-0 w-full h-56 max-h-56 object-scale-down rounded" src={item.image} alt="">
+                        {:else}
+                        <img class="w-full h-56 max-h-56 object-cover rounded" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="">
+                        {/if}
+                    </div>
                 </div>
-                <div class="flex flex-row text-xs mb-2">
-                    {#each item.area as el}
-                    <span class="p-1 bg-orange-100 rounded mr-1 mb-1">{el}</span>
-                    {/each}
-                </div>
-                <p class="text-sm mb-2 font-normal">{item.description}</p>
-                {#if item.type == 'Exterior'}
-                <a href="https://www.openstreetmap.org/#map=16/{item.lat}/{item.lng}" target="blank" class="mb-2 flex flex-row items-center">
-                    <span class="pr-2 cursor-pointer">Ubicación</span>
-                    <Icon icon="ph:map-pin-fill" class="text-lg cursor-pointer" />
-                </a>
-                {/if}
-                {#if item.type == 'Virtual'}
-                <a href="{item.link}" target="blank" class="mb-2 flex flex-row items-center">
-                    <span class="pr-2 cursor-pointer">Enlace a la reunión</span>
-                    <Icon icon="ph:link-bold" class="cursor-pointer" />
-                </a>
-                {/if}
-                {#if item.type == 'Presencial'}
-                <div class="mb-2 flex flex-row items-center">
-                    <span class="pr-2">{item.place}</span>
-                    <Icon icon="ph:map-trifold-bold" class="text-lg" />
-                </div>
-                {/if}
-                <div>
-                    <a class="flex items-center mb-3" href="mailto:{item.email}">
-                        <img class="w-7 h-7 rounded-full mr-2 cursor-pointer" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Rounded avatar">
-                        <p class="text-sm text-slate-800 cursor-pointer">{item.owner}</p>
+                <div class="p-3 pb-0">
+                    <div class="grid grid-cols-2">
+                        <h2 class="text-slate-700 text-lg mb-2  whitespace-nowrap text-ellipsis overflow-hidden" title={item.name}>{item.name}</h2>
+                        <h2 class="text-gray-500 text-md mb-2 font-semibold text-end">{item.date}</h2>
+                    </div>
+                    <div class="flex flex-row text-xs mb-2">
+                        {#each item.area as el}
+                        <span class="p-1 bg-orange-100 rounded mr-1 mb-1">{el}</span>
+                        {/each}
+                    </div>
+                    <p class="text-sm mb-2 font-normal">{item.description}</p>
+                    {#if item.type == 'Exterior'}
+                    <a href="https://www.openstreetmap.org/#map=16/{item.lat}/{item.lng}" target="blank" class="mb-2 flex flex-row items-center">
+                        <span class="pr-2 cursor-pointer">Ubicación</span>
+                        <Icon icon="ph:map-pin-fill" class="text-lg cursor-pointer" />
                     </a>
-                </div>
-                <div class="flex flex-row justify-between border-b border-gray-200 pb-4">
-                    <div class="flex flex-row justify-end text-sm">
-                        <p class="mr-2 text-slate-700">Cant.</p>
-                        <p class="text-gray-400 text-sm">{item.hours}hrs</p>
+                    {/if}
+                    {#if item.type == 'Virtual'}
+                    <a href="{item.link}" target="blank" class="mb-2 flex flex-row items-center">
+                        <span class="pr-2 cursor-pointer">Enlace a la reunión</span>
+                        <Icon icon="ph:link-bold" class="cursor-pointer" />
+                    </a>
+                    {/if}
+                    {#if item.type == 'Presencial'}
+                    <div class="mb-2 flex flex-row items-center">
+                        <span class="pr-2">{item.place}</span>
+                        <Icon icon="ph:map-trifold-bold" class="text-lg" />
                     </div>
-                    <div class="flex flex-row justify-end text-sm">
-                        <p class="mr-2 text-slate-700">Horario</p>
-                        <p class="text-gray-400"> 7:00 am - 11:00 am</p>
+                    {/if}
+                    <div>
+                        <a class="flex items-center mb-3" href="mailto:{item.email}">
+                            <img class="w-7 h-7 rounded-full mr-2 cursor-pointer" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Rounded avatar">
+                            <p class="text-sm text-slate-800 cursor-pointer">{item.owner}</p>
+                        </a>
                     </div>
+                    <div class="flex flex-row justify-between border-b border-gray-200 pb-4">
+                        <div class="flex flex-row justify-end text-sm">
+                            <p class="mr-2 text-slate-700">Horas VOAE</p>
+                            <p class="text-gray-400 text-sm">{item.hours}hrs</p>
+                        </div>
+                        <div class="flex flex-row justify-end text-sm">
+                            <p class="mr-2 text-slate-700">Horario</p>
+                            <p class="text-gray-400"> {item.start} - {item.end}</p>
+                        </div>
+                    </div>
+                    <button on:click={selectActivity(item)} class="p-3 text-center text-slate-600 block w-full hover:text-blue-800 focus:outline-0">Inscribirse</button>
                 </div>
-                <button on:click={selectActivity(item)} class="p-3 text-center text-slate-600 block w-full hover:text-blue-800 focus:outline-0">Inscribirse</button>
             </div>
             {/each}
 
