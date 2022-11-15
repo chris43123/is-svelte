@@ -1,41 +1,41 @@
 <script>
-    import headerOne from '$lib/images/header-1.png';
-    import headerTwo from '$lib/images/header-2.png';
-    import headerThree from '$lib/images/header-3.png';
+    import bg from '../public/head_shape_r.png'
 
 </script>
 
-<!-- component -->
-<div class="relative bg-gray-900">
-    <div class="absolute inset-x-0 bottom-0">
-      <svg viewBox="0 0 224 12" fill="currentColor" class="w-full -mb-1 text-white" preserveAspectRatio="none">
-        <path d="M0,0 C48.8902582,6.27314026 86.2235915,9.40971039 112,9.40971039 C137.776408,9.40971039 175.109742,6.27314026 224,0 L224,12.0441132 L0,12.0441132 L0,0 Z"></path>
-      </svg>
+<section style="background-image: url('{bg}');  background-position: left;">
+    <div class="bg-white/30">
+        <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 gap-28">
+                <div class="py-56">
+                    <p class="text-2xl text-blue-800 font-semibold">Somos</p>
+                    <h1 class="mb-6 text-6xl text-gray-800 font-semibold">Ingeniería en Sistemas</h1>
+                    <h2 class="text-lg font-semibold text-gray-600">Bienvenidos a la página de Ingeniería en Sistemas de la UNAH, donde podrá encontrar información sobre trámites académicos,actividades, eventos, noticias y demás asuntos de interés. </h2>
+                    <div>
+                        <button class="border-2 border-blue-800 bg-blue-800 text-white text-lg rounded px-6 py-2 mt-4 mr-2">Ver Más</button>
+                        <button class="border-2 border-blue-800 text-blue-800 hover:border-blue-800 hover:bg-blue-800 hover:text-white text-lg rounded px-6 py-2 mt-4 mr-2">Ver Más</button>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="grid grid-cols-12 gap-7 items-center">
+                        <div class="col-span-5">
+                            <div class="grid grid-cols-1 gap-4">
+                                <img class="w-full shadow rounded-lg" src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="">
+                                
+                                <div class="ml-auto">
+                                    <div class="w-28 h-28 bg-blue-800 rounded-lg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-span-7">
+                            <div class="grid grid-cols-1 gap-4">
+                                <img  class="w-full shadow rounded-lg"  src="https://images.unsplash.com/photo-1598257006303-031250badbdc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="px-4 py-16 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
-      <div class="relative max-w-2xl sm:mx-auto sm:max-w-xl md:max-w-2xl sm:text-center">
-        <h2 class="mb-6 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl sm:leading-none">
-          Ingeniería en
-          <span class="relative inline-block">
-            Sistemas
-            <div class="w-full h-3 -mt-3 bg-blue-600"></div>
-          </span>
-        </h2>
-        <p class="mb-6 text-base font-thin tracking-wide text-gray-300 md:text-lg">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae. explicabo. Sed ut perspiciatis unde omnis.
-        </p>
-        <p class="max-w-md mb-10 text-xs font-thin tracking-wide text-gray-500 sm:text-sm sm:mx-auto md:mb-16">
-          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.
-        </p>
-        <a
-          href="/"
-          aria-label="Scroll down"
-          class="flex items-center justify-center w-10 h-10 mx-auto text-white duration-300 transform border border-gray-400 rounded-full hover:text-teal-accent-400 hover:border-teal-accent-400 hover:shadow hover:scale-110"
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-            <path d="M10.293,3.293,6,7.586,1.707,3.293A1,1,0,0,0,.293,4.707l5,5a1,1,0,0,0,1.414,0l5-5a1,1,0,1,0-1.414-1.414Z"></path>
-          </svg>
-        </a>
-      </div>
-    </div>
-  </div>
+    
+</section>

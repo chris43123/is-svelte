@@ -233,7 +233,7 @@
                 </div>
                 <h1 class="font-bold text-md text-center mb-2 {subjSelected == subject.code ? cssClassActive.title : cssClass.title} {'title-'+subject.code} ">{subject.name}</h1>
                 <h3 class="text-center font-semibold text-sm {subjSelected == subject.code ? cssClassActive.subtitle : cssClass.subtitle} {'subtitle-'+subject.code} ">{subject.code}</h3>
-                <h3 class="text-center font-semibold text-sm {subjSelected == subject.code ? cssClassActive.subtitle : cssClass.subtitle} {'subtitle-'+subject.code} ">5 UV</h3>
+                <h3 class="text-center font-semibold text-sm {subjSelected == subject.code ? cssClassActive.subtitle : cssClass.subtitle} {'subtitle-'+subject.code} ">{subject.uv} UV</h3>
             </div>      
             {/if}
             {/each}
