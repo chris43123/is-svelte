@@ -8,6 +8,24 @@
 	import raspberry from '../public/raspberry.png'
 	import ubuntu from '../public/ubuntu.png'
 	import shap from '../public/num_shap.png'
+
+	import { onMount } from 'svelte'
+  	import anime from "animejs";
+
+	onMount(async () => {
+    });
+
+	function visibleContent() {
+		console.log('test')
+		anime({
+			targets: '#countOne',
+			value: [0, 1000],
+			round: 1,
+			easing: 'easeInOutExpo'
+		});
+	}
+
+
 </script>
 
 
@@ -42,21 +60,21 @@
 					<p class="text-lg text-white">Nuestras áreas de enseñanza corresponden a Circuitos y Electrónica, Desarrollo de Software, Base de Datos y Redes de Datos, permitiendo al estudiante al culminar su carrera poder desempeñarse en cualquiera de estas áreas y así mismo poder realizar una perfecta integración de todas ellas, posibilitando el desarrollo de proyecto de alta calidad y cumpliendo con todos los requisitos que el cliente desea.</p>
 				</div>
 			</div>
-			<div class="grid grid-cols-4 pt-16">
+			<div class="grid grid-cols-4 pt-16" on:visibilitychange={visibleContent}>
 				<div class="text-white font-medium text-center">
-					<h3 class="text-5xl">600</h3>
+					<input class="w-full text-center inline-block p-0 bg-transparent text-5xl" id="countOne">
 					<p class="text-2xl mt-3">Estudiantes</p>
 				</div>
 				<div class="text-white font-medium text-center">
-					<h3 class="text-5xl">15</h3>
+					<input class="w-full text-center inline-block p-0 bg-transparent text-5xl" id="countTwo">
 					<p class="text-2xl mt-3">Catedrático</p>
 				</div>
 				<div class="text-white font-medium text-center">
-					<h3 class="text-5xl">56</h3>
+					<input class="w-full text-center inline-block p-0 bg-transparent text-5xl" id="countThree">
 					<p class="text-2xl mt-3">Clases</p>
 				</div>
 				<div class="text-white font-medium text-center">
-					<h3 class="text-5xl">150</h3>
+					<input class="w-full text-center inline-block p-0 bg-transparent text-5xl" id="countFour">
 					<p class="text-2xl mt-3">UV</p>
 				</div>
 			</div>
