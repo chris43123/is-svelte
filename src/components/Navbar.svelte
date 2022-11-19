@@ -7,78 +7,45 @@
 <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
 
-<nav class="w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-blueGray-800">
+<nav class="w-full flex flex-wrap items-center justify-between px-2 py-3 navbar-expand-lg bg-white border-b border-gray-200">
   <div class="container px-4 mx-auto flex flex-wrap items-center justify-between">
     <div class="w-full relative flex justify-between lg:w-auto lg:static lg:block lg:justify-start ">
-      <a class="text-lg font-semibold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-white" href="/">IS</a><button class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" onclick="toggleNavbar('example-collapse-navbar')">
-        <i class="text-white fas fa-bars"></i>
+      <a class="text-lg font-semibold leading-relaxed inline-block mr-4 py-2 whitespace-nowrap uppercase text-gray-800" href="/">IS</a><button class="cursor-pointer text-xl leading-none px-3 py-1 border border-solid border-transparent rounded bg-transparent block lg:hidden outline-none focus:outline-none" type="button" onclick="toggleNavbar('example-collapse-navbar')">
+        <i class="text-gray-800 fas fa-bars"></i>
       </button>
     </div>
     <div class="lg:flex flex-grow items-center bg-white lg:bg-opacity-0 lg:shadow-none hidden bg-blueGray-800" id="example-collapse-navbar">
       <ul class="flex flex-col lg:flex-row list-none mr-auto">
         <li class="flex items-center">
-          <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/">
+          <a class=" text-gray-800 hover:text-blue-700 px-3 py-4 lg:py-2 flex items-center text-md font-semibold" href="/">
             Información</a>
         </li>
         <li class="flex items-center">
-            <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/actividades">
+            <a class="text-gray-800 hover:text-blue-700 px-3 py-4 lg:py-2 flex items-center text-md font-semibold" href="/actividades">
               Actividades</a>
           </li>
       </ul>
       <ul class="flex flex-col lg:flex-row list-none lg:ml-auto items-center">
         <li class="inline-block relative">
-          <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-sm font-semibold" href="/plan-estudios">
+          <a class=" text-gray-800 hover:text-blue-700 px-3 py-4 lg:py-2 flex items-center text-md font-semibold" href="/plan-estudios">
             Plan de Estudios
           </a>
-          <div class="hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48" id="demo-pages-dropdown">
-            <span class="text-sm pt-2 pb-0 px-4 font-semibold block w-full whitespace-nowrap bg-transparent text-blueGray-400">
-              Admin Layout
+        </li>
+        <li class="flex items-center">
+          <a href="https://www.facebook.com/IngenieriaEnSistemasVS" class="lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"><i class="lg:text-gray-800 text-gray-800 fab fa-facebook text-xl leading-lg"></i><span class="lg:hidden inline-block ml-2">Share</span></a>
+        </li>
+        <li class="flex items-center">
+          <a class="lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold" href="https://t.me/+USa9Zlwai-RGxj_A" ><i class="lg:text-gray-800 text-gray-800 fab fa-telegram text-xl leading-lg"></i><span class="lg:hidden inline-block ml-2">telegram</span></a>
+        </li>
+        <li class="flex items-center">
+          <a class="lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold" href="https://instagram.com/aeis_vs?igshid=YmMyMTA2M2Y=" >
+            <span class="bg-gray-800 rounded-full w-5 h-5 flex items-center justify-center">
+              <i class="lg:text-white text-white fab fa-instagram text-md leading-lg"></i>
             </span>
-            <a href="/" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-              Dashboard
-            </a>
-            <a href="/" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-              Settings
-            </a>
-            <a href="/" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-              Tables
-            </a>
-            <a href="/" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-              Maps
-            </a>
-            <div class="h-0 mx-4 my-2 border border-solid border-blueGray-100"></div>
-            <span class="text-sm pt-2 pb-0 px-4 font-semibold block w-full whitespace-nowrap bg-transparent text-blueGray-400">
-              Auth Layout
-            </span>
-            <a href="/" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-              Login
-            </a>
-            <a href="/" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-              Register
-            </a>
-            <div class="h-0 mx-4 my-2 border border-solid border-blueGray-100"></div>
-            <span class="text-sm pt-2 pb-0 px-4 font-semibold block w-full whitespace-nowrap bg-transparent text-blueGray-400">
-              No Layout
-            </span>
-            <a href="/" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-              Landing
-            </a>
-            <a href="/" class="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700">
-              Profile
-            </a>
-          </div>
+          </a>
         </li>
         <li class="flex items-center">
-          <a href="/" class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"><i class="lg:text-blueGray-200 text-blueGray-400 fab fa-facebook text-lg leading-lg"></i><span class="lg:hidden inline-block ml-2">Share</span></a>
-        </li>
-        <li class="flex items-center">
-          <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold" href="/" ><i class="lg:text-blueGray-200 text-blueGray-400 fab fa-twitter text-lg leading-lg"></i><span class="lg:hidden inline-block ml-2">Tweet</span></a>
-        </li>
-        <li class="flex items-center">
-          <a class="lg:text-white lg:hover:text-blueGray-200 text-blueGray-700 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold" href="/" ><i class="lg:text-blueGray-200 text-blueGray-400 fab fa-github text-lg leading-lg"></i><span class="lg:hidden inline-block ml-2">Star</span></a>
-        </li>
-        <li class="flex items-center">
-          <a class="bg-white text-blueGray-700 active:bg-blueGray-50 text-xs font-semibold uppercase px-4 mr-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150" href="/" >
+          <a class="bg-white text-gray-800 active:bg-blueGray-50 text-xs font-semibold uppercase px-4 mr-2 py-2 rounded shadow hover:shadow-md outline-none focus:outline-none lg:mr-1 lg:mb-0 ml-3 mb-3 ease-linear transition-all duration-150" href="/" >
             <i class="fas fa-user"></i> Acceder
           </a>
         </li>

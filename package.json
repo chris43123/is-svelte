@@ -23,6 +23,7 @@
 		"animejs": "^3.2.1",
 		"firebase": "^9.13.0",
 		"leaflet": "^1.9.2",
+		"svelte-inview": "^3.0.1",
 		"uuid": "^9.0.0"
 	}
 }

@@ -504,11 +504,16 @@
         <p class="text-md text-gray-700">Noviembre - 2022</p>
 
         {#if load == true}
-        <div class="grid grid-cols-4 my-4">
+        <div class="grid grid-cols-4 my-6">
             {#each [1,2] as n}
             <SkeletonCard/>
             {/each}
-        </div>      
+        </div> 
+        <div class="grid grid-cols-4 my-6">
+            {#each [1,2] as n}
+            <SkeletonCard/>
+            {/each}
+        </div>       
         {:else}
         <div class="grid grid-cols-4 my-4">
 
@@ -580,47 +585,4 @@
         {/if}
     </div>
 
-    <div class="py-4 font-semibold">
-        <h2 class="text-slate-800 text-xl">Próximas Actividades</h2>
-        {#if load == true}
-        <div class="grid grid-cols-4 my-4">
-            {#each [1,2,3] as n}
-            <SkeletonCard/>
-            {/each}
-        </div>      
-        {:else}
-        <div class="grid grid-cols-4 my-4">
-
-            {#each activities as item}
-            <div class="text-medium mr-2 my-2 p-3 pb-0 border border-gray-200 shadow-sm">
-                <div class="grid grid-cols-2">
-                    <h2 class="text-slate-700 text-lg mb-2  whitespace-nowrap text-ellipsis overflow-hidden" title={item.name}>{item.name}</h2>
-                    <h2 class="text-gray-500 text-md mb-2 font-semibold text-end">{item.date}</h2>
-                </div>
-                <div class="flex flex-row text-xs mb-2">
-                    {#each item.area as el}
-                    <span class="p-1 bg-orange-100 rounded mr-1 mb-1">{el}</span>
-                    {/each}
-                </div>
-                <p class="text-sm mb-2 font-normal">{item.description}</p>
-                <div class="flex items-center mb-3">
-                    <img class="w-7 h-7 rounded-full mr-2 cursor-pointer" src="https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="Rounded avatar">
-                    <p class="text-sm text-slate-800 cursor-pointer">{item.owner}</p>
-                </div>
-                <div class="flex flex-row justify-between border-b border-gray-200 pb-4">
-                    <div class="flex flex-row justify-end text-sm">
-                        <p class="mr-2 text-slate-700">Cant.</p>
-                        <p class="text-gray-400 text-sm">{item.hours}hrs</p>
-                    </div>
-                    <div class="flex flex-row justify-end text-sm">
-                        <p class="mr-2 text-slate-700">Horario</p>
-                        <p class="text-gray-400"> 7:00 am - 11:00 am</p>
-                    </div>
-                </div>
-                <button on:click={selectActivity(item)} class="p-3 text-center text-slate-600 block w-full hover:text-blue-800 focus:outline-0">Inscribirse</button>
-            </div>
-            {/each}       
-        </div>
-        {/if}
-    </div>
 </div>

@@ -3,6 +3,7 @@
     import {getAllData} from '../../utils/firebase/firebaseApi'
     import {onMount, onDestroy } from 'svelte';
     import {tree, subjects, treeSubjects} from '../../store.js'
+    import bg from '../../public/fondo.png'
 
     let loading = true
     let Line;
@@ -56,12 +57,12 @@
             document.querySelector('.card-'+subjSelected).classList.remove('bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
             document.querySelector('.title-'+subjSelected).classList.remove('text-slate-900')
             document.querySelector('.icon-'+subjSelected).classList.remove('bg-blue-500')
-            document.querySelector('.card-'+subjSelected).classList.add('opacity-50')
+            document.querySelector('.card-'+subjSelected).classList.add('saturate-50')
         }
 
         subjSelected = subject.code
 
-        document.querySelector('.card-'+subjSelected).classList.remove('opacity-50')
+        document.querySelector('.card-'+subjSelected).classList.remove('saturate-50')
         document.querySelector('.card-'+subjSelected).classList.add('border-transparent','bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
         document.querySelector('.icon-'+subjSelected).classList.add('bg-blue-500')
 
@@ -91,7 +92,7 @@
                                 path: 'fluid',
                                 endSocket: 'top',
                                 startSocket: 'bottom',
-                                hide: true
+                                hide: true,
                             });
                             line['show']('draw');
                             lineStart.push(line)
@@ -135,7 +136,7 @@
                         foundNext = nextSelected.find(el => el == element.code)
 
                         if(foundReq != undefined && foundReq  != '') {
-                            item.classList.remove('opacity-50')
+                            item.classList.remove('saturate-50')
                             item.classList.add('border-b-8' ,'border-orange-300')
                             icon.classList.add('bg-orange-300' ,'text-white')
                         } else {
@@ -144,13 +145,13 @@
                                     icon.classList.remove('bg-orange-300')
                                     item.classList.remove('border-orange-300')
                                     if(subjSelected != element.code) {
-                                        item.classList.add('opacity-50')
+                                        item.classList.add('saturate-50')
                                     }
                                 }
                             }
                         }
                         if(foundNext != undefined && foundNext != '') {
-                            item.classList.remove('opacity-50')
+                            item.classList.remove('saturate-50')
                             item.classList.add('border-t-8' ,'border-teal-500')
                             icon.classList.add('bg-teal-500' ,'text-white')
                         } else {
@@ -159,7 +160,7 @@
                                     item.classList.remove('border-teal-500')
                                     icon.classList.remove('bg-teal-500')
                                     if(subjSelected != element.code) {
-                                        item.classList.add('opacity-50')
+                                        item.classList.add('saturate-50')
                                     }
                                 }
                             }
@@ -190,30 +191,31 @@
 
 </script>
 
+
 {#if !loading}
-<div class="bg-gray-800 items-start pt-8 border-b border-gray-700">
-    <h1 class="text-3xl text-slate-100 font-bold mb-2 text-center">Plan de Estudios</h1>
-    <h2 class="text-lg font-semibold text-gray-100 text-center">Explora las clases correspondientes al plan de estudios de la carrera Ingeniería en Sistemas </h2>
+
+
+<div class="py-20" style="background-image: url('{bg}');  background-position: left; background-size: contain; backdrop-filter: blur(5px)">
+
+    <h1 class="text-5xl text-gray-800 font-bold mb-2 text-center">Plan de Estudios</h1>
+    <h2 class="text-xl font-semibold text-gray-800 text-center">Explora las clases correspondientes al plan de estudios de la carrera Ingeniería en Sistemas </h2>
 
     <div class="container m-auto">
-        <div class="flex flex-row justify-center py-10 text-lg text-slate-100">
-            <div class="flex flex-row mx-4 p-2 bg-slate-700 rounded-md">
+        <div class="flex flex-row justify-center py-10 text-lg text-gray-800">
+            <div class="flex flex-row mx-4 p-2 bg-gray-100 shadow rounded-md">
                 <div class="rounded-md w-7 h-7 bg-blue-500 mr-3"></div>
                 <h2>Seleccionada</h2>
             </div>
-            <div class="flex flex-row mx-4 p-2 bg-slate-700 rounded-md">
+            <div class="flex flex-row mx-4 p-2 bg-gray-100 shadow rounded-md">
                 <div class="rounded-md w-7 h-7 bg-orange-300 mr-3"></div>
                 <h2>Requerida</h2>
             </div>  
-            <div class="flex flex-row mx-4 p-2 bg-slate-700 rounded-md">
+            <div class="flex flex-row mx-4 p-2 bg-gray-100 shadow rounded-md">
                 <div class="rounded-md w-7 h-7 bg-teal-500 mr-3"></div>
                 <h2>Apertura</h2>
             </div>     
         </div>
     </div>
-</div>
-
-<div class=" bg-gray-800">
     <div class="container m-auto pt-10">        
         {#each $treeSubjects as slot}
         <div class="flex flex-row justify-center mt-32">
@@ -222,7 +224,7 @@
             <div id={subject.code} 
             on:click={changeSubject(subject)} 
             on:keypress={changeSubject} 
-            class="transition-all opacity-50 duration-500 shadow border-t-8 border-b-8 border-transparent mx-7 filter rounded p-5 text-md cursor-pointer hover:shadow-md card 
+            class="transition-all saturate-50 duration-500 shadow-md border-t-8 border-b-8 border-transparent mx-7 filter rounded p-5 text-md cursor-pointer hover:shadow-lg card 
             {cssClass.bg} 
             {'card-'+subject.code}
             ">
