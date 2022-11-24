@@ -269,6 +269,12 @@
             width: 150px;
             min-width: 150px;
             margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .card h1 {
+            margin-bottom: 0;
         }
         .card h3 {
             display: none;
