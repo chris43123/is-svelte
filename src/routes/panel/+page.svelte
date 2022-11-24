@@ -2,24 +2,24 @@
     import Icon from '@iconify/svelte';
     import { v4 as uuidv4 } from 'uuid';
     import {required} from '../../utils/validations'
-    import {getAllData, createDocument, updateDocument, uploadFile} from '../../utils/firebase/firebaseApi'
+    import {getAllData, createDocument, uploadFile} from '../../utils/firebase/firebaseApi'
     import { onMount } from 'svelte';
 
     // Components
     import Modal from '../../components/Modal.svelte';
     import Alert from '../../components/Alert.svelte';
-    import SkeletonCard from '../../components/skeletons/SkeletonCard.svelte';
     import LeafletMap from '../../components/Leaflet.svelte';
     import Spinner from '../../components/Spinner.svelte';
+    import { goto } from '$app/navigation';
 
     //Variables
     let activities = []
-    let showFormRegister = false;
     let showFormActivity = false;
     let uuid = uuidv4()
     let uuid2 = uuidv4()
     let alert = {}
     let load = ''
+    let headers = ['Actividad', 'Descripción', 'Tipo', 'Inicio', 'Final', 'Fecha']
 
 
     async function getActivities() {
@@ -30,6 +30,7 @@
 
     onMount(async () => {
         await getActivities()
+        console.log(activities)
     });
 
 
@@ -75,7 +76,6 @@
         console.log(e.target.files)
         let file = e.target.files[0]
         actImageName = file.name
-        // console.log(file)
         loadImage = true
         const res = await uploadFile(file)
         console.log(res)
@@ -91,6 +91,11 @@
     let latLng = {}
     function setLatLng(e) {
         latLng = e.detail
+    }
+
+    // Go to Activity
+    function goToAct(id) {
+        goto("/panel/"+id)
     }
 
     //Send Form Activity
@@ -154,8 +159,6 @@
                 activity.lng = latLng.lng
             }
 
-            console.log(uuid)
-            console.log(uuid2)
             const response = await createDocument("activities", activity, uuid)
             const res = await createDocument("activitiesRegister", {idAct: uuid, name: activity.name}, uuid)
 
@@ -419,16 +422,13 @@
         <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 
 
-        <section class="py-1 bg-blueGray-50">
-            <div class="w-full xl:w-8/12 mb-12 xl:mb-0 px-4 mx-auto mt-24">
+        <section class="py-1">
+            <div class="mx-auto mt-24">
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded ">
                     <div class="rounded-t mb-0 px-4 py-3 border-0">
                     <div class="flex flex-wrap items-center">
                         <div class="relative w-full px-4 max-w-full flex-grow flex-1">
-                        <h3 class="font-semibold text-base text-blueGray-700">Page Visits</h3>
-                        </div>
-                        <div class="relative w-full px-4 max-w-full flex-grow flex-1 text-right">
-                        <button class="bg-indigo-500 text-white active:bg-indigo-600 text-xs font-bold uppercase px-3 py-1 rounded outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150" type="button">See all</button>
+                        <h3 class="font-semibold text-base text-blueGray-700">Actividades</h3>
                         </div>
                     </div>
                     </div>
@@ -437,97 +437,37 @@
                     <table class="items-center bg-transparent w-full border-collapse ">
                         <thead>
                         <tr>
+                            {#each headers as header}
                             <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                        Page name
-                                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                        Visitors
-                                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                        Unique users
-                                        </th>
-                        <th class="px-6 bg-blueGray-50 text-blueGray-500 align-middle border border-solid border-blueGray-100 py-3 text-xs uppercase border-l-0 border-r-0 whitespace-nowrap font-semibold text-left">
-                                        Bounce rate
-                                        </th>
+                                {header}
+                            </th>
+                            {/each}
                         </tr>
                         </thead>
 
                         <tbody>
-                        <tr>
-                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
-                            /argon/
-                            </th>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
-                            4,569
-                            </td>
-                            <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            340
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
-                            46,53%
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
-                            /argon/index.html
-                            </th>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            3,985
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            319
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            <i class="fas fa-arrow-down text-orange-500 mr-4"></i>
-                            46,53%
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
-                            /argon/charts.html
-                            </th>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            3,513
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            294
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            <i class="fas fa-arrow-down text-orange-500 mr-4"></i>
-                            36,49%
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
-                            /argon/tables.html
-                            </th>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            2,050
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            147
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            <i class="fas fa-arrow-up text-emerald-500 mr-4"></i>
-                            50,87%
-                            </td>
-                        </tr>
-                        <tr>
-                            <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700">
-                            /argon/profile.html
-                            </th>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            1,795
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            190
-                            </td>
-                            <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
-                            <i class="fas fa-arrow-down text-red-500 mr-4"></i>
-                            46,53%
-                            </td>
-                        </tr>
+                            {#each activities as {name, description, type, date, start, end, id}}
+                            <tr class="hover:bg-slate-100 hover:cursor-pointer" on:click={goToAct(id)}>
+                                <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
+                                {name}
+                                </th>
+                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 ">
+                                {description}
+                                </td>
+                                <td class="border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {type}
+                                </td>
+                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {date}
+                                </td>
+                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {start}
+                                </td>
+                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                {end}
+                                </td>
+                            </tr>
+                            {/each}
                         </tbody>
 
                     </table>

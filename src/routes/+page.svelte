@@ -55,9 +55,9 @@
 
 <div class="">
 	<section>
-		<div class="relative bg-gradient-to-r rounded-lg px-36 from-blue-700 to-blue-500 mx-auto max-w-screen-xl pb-24 ">
+		<div class="relative bg-gradient-to-r rounded-lg from-blue-700 to-blue-500 mx-auto max-w-screen-xl px-8 py-16 md:px-36 md:pb-24 md:pt-20 lg:pt-0">
 			<img class="absolute left-0 top-0 w-full h-full flex items-stretch px-8 py-4 opacity-30" src={shap} alt="">
-			<div class="flex flex-row justify-between pt-12 pb-1 mb-10 border-b border-white">
+			<div class="hidden flex-row justify-between pt-12 pb-1 mb-10 border-b border-white lg:flex">
 				<div class="flex items-center">
 					<img class="w-32" src={cisco} alt="">
 				</div>
@@ -74,31 +74,31 @@
 					<img class="w-36" src={ubuntu} alt="">
 				</div>
 			</div>
-			<div class="grid grid-cols-2">
+			<div class="grid lg:grid-cols-2 md:grid-cols-1">
 				<div class="flex items-center">
-					<h2 class="text-white text-semibold text-5xl">Creamos, Transformamos y Simplificamos</h2>
+					<h2 class="text-white text-bold text-4xl md:mb-3">Creamos, Transformamos y Simplificamos</h2>
 				</div>
 				<div>
 					<p class="text-lg text-white">Nuestras áreas de enseñanza corresponden a Circuitos y Electrónica, Desarrollo de Software, Base de Datos y Redes de Datos, permitiendo al estudiante al culminar su carrera poder desempeñarse en cualquiera de estas áreas y así mismo poder realizar una perfecta integración de todas ellas, posibilitando el desarrollo de proyecto de alta calidad y cumpliendo con todos los requisitos que el cliente desea.</p>
 				</div>
 			</div>
-			<div class="grid grid-cols-4 pt-16"  
+			<div class="grid xs:grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 pt-16"  
 				use:inview
 				on:enter={handleView}
 			>
-				<div class="text-white font-medium text-center">
+				<div class="text-white font-medium text-center pb-8 md:pb-0">
 					<input class="w-full text-center inline-block p-0 bg-transparent text-5xl" id="countOne">
 					<p class="text-2xl mt-3">Estudiantes</p>
 				</div>
-				<div class="text-white font-medium text-center">
+				<div class="text-white font-medium text-center pb-8 md:pb-0">
 					<input class="w-full text-center inline-block p-0 bg-transparent text-5xl" id="countTwo">
 					<p class="text-2xl mt-3">Catedráticos</p>
 				</div>
-				<div class="text-white font-medium text-center">
+				<div class="text-white font-medium text-center pb-8 md:pb-0">
 					<input class="w-full text-center inline-block p-0 bg-transparent text-5xl" id="countThree">
 					<p class="text-2xl mt-3">Clases</p>
 				</div>
-				<div class="text-white font-medium text-center">
+				<div class="text-white font-medium text-center pb-8 md:pb-0">
 					<input class="w-full text-center inline-block p-0 bg-transparent text-5xl" id="countFour">
 					<p class="text-2xl mt-3">UV</p>
 				</div>
@@ -182,7 +182,7 @@
 				</div>
 
                 <div class="flex items-center flex-wrap justify-center mt-8">
-                    <div class="h-full flex items-stretch w-1/3 px-8 py-4">
+                    <div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-slate-300/10 dark:bg-slate-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingRoberto} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -197,7 +197,7 @@
                         </div>
                     </div>
                     
-                    <div class="h-full flex items-stretch w-1/3 px-8 py-4">
+                    <div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-emerald-300/10 dark:bg-emerald-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingNazarena} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -210,7 +210,7 @@
                         </div>
                     </div>
                     
-                    <div class="h-full flex items-stretch w-1/3 px-8 py-4">
+                    <div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-red-300/10 dark:bg-red-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingGerardo} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -224,7 +224,7 @@
                         </div>
                     </div>
 
-					<div class="h-full flex items-stretch w-1/3 px-8 py-4">
+					<div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-blue-300/10 dark:bg-blue-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingVargas} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -238,7 +238,7 @@
                         </div>
                     </div>
 
-					<div class="h-full flex items-stretch w-1/3 px-8 py-4">
+					<div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-slate-300/10 dark:bg-slate-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingBrand} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -251,7 +251,7 @@
                         </div>
                     </div>
                     
-                    <div class="h-full flex items-stretch w-1/3 px-8 py-4">
+                    <div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-emerald-300/10 dark:bg-emerald-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingChacon} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -264,7 +264,7 @@
                         </div>
                     </div>
                     
-                    <div class="h-full flex items-stretch w-1/3 px-8 py-4">
+                    <div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-red-300/10 dark:bg-red-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingJuan} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -278,7 +278,7 @@
                         </div>
                     </div>
 
-					<div class="h-full flex items-stretch w-1/3 px-8 py-4">
+					<div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-blue-300/10 dark:bg-blue-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingLara} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -292,7 +292,7 @@
                         </div>
                     </div>
 
-					<div class="h-full flex items-stretch w-1/3 px-8 py-4">
+					<div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-slate-300/10 dark:bg-slate-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingBorjas} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -305,7 +305,7 @@
                         </div>
                     </div>
                     
-                    <div class="h-full flex items-stretch w-1/3 px-8 py-4">
+                    <div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-emerald-300/10 dark:bg-emerald-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingCubilla} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -318,7 +318,7 @@
                         </div>
                     </div>
                     
-                    <div class="h-full flex items-stretch w-1/3 px-8 py-4">
+                    <div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-red-300/10 dark:bg-red-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingLiliana} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -332,7 +332,7 @@
                         </div>
                     </div>
 
-					<div class="h-full flex items-stretch w-1/3 px-8 py-4">
+					<div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-blue-300/10 dark:bg-blue-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingDavid} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -345,7 +345,7 @@
                         </div>
                     </div>
 
-					<div class="h-full flex items-stretch w-1/3 px-8 py-4">
+					<div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-emerald-300/10 dark:bg-emerald-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingJulio} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
@@ -358,7 +358,7 @@
                         </div>
                     </div>
 
-					<div class="h-full flex items-stretch w-1/3 px-8 py-4">
+					<div class="h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4">
                         <div class="w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative">
                             <div class="absolute inset-0 bg-red-300/10 dark:bg-red-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"></div>
                             <img src={ingAlba} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">

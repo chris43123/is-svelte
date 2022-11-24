@@ -14,6 +14,17 @@ export async function getData (documents, value, converter = Function) {
     }
 }
 
+export async function getSingleData (documents, value) {
+    const ref = query(doc(db, documents, value));
+    const docSnap = await getDoc(ref)
+
+    if (docSnap.exists()) {
+        return docSnap.data()
+    } else {
+        return false
+    }
+}
+
 export async function getAllData (documents, value='' , q ='', sign) {
     let ref = ''
     if(value != '' && query != '') {

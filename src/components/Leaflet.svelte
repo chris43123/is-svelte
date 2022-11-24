@@ -9,9 +9,11 @@
     let map;
     let leaflet;
     export let sm, lg
-    export const lat = 15.529926982165401
-    export const lng = -88.03643405442018
-    export const zoom = 16
+    export let lat = 15.529926982165401
+    export let lng = -88.03643405442018
+    export let zoom = 16
+    export let view = false
+    export let popup = ''
 
     onMount(async () => {
         if(browser) {
@@ -24,15 +26,30 @@
 
             }).addTo(map);
             let marker = leaflet.marker([lat, lat]).addTo(map)
-                // .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-                // .openPopup();
-            map.on('click', function(e) {
-                if(marker) {
-                    map.removeLayer(marker)
+
+            console.log(view)
+
+            if(view == true) {
+                console.log('test')
+                console.log(lat)
+                if(popup != '') {
+                    console.log(popup)
+                    marker = leaflet.marker([lat, lng]).addTo(map)
+                    .bindPopup(popup)
+                    .openPopup();
+                } else {
+                    marker = leaflet.marker([lat, lng]).addTo(map)
                 }
-                marker = leaflet.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
-                sendLatLng(e.latlng)
-            })
+            } else {
+                map.on('click', function(e) {
+                    if(marker) {
+                        map.removeLayer(marker)
+                    }
+                    marker = leaflet.marker([e.latlng.lat, e.latlng.lng]).addTo(map)
+                    sendLatLng(e.latlng)
+                })
+            }
+                
         }
     });
 
@@ -56,5 +73,8 @@
     @import 'leaflet/dist/leaflet.css';
     main div {
         height: 300px;
+    }
+    main .lg {
+        height: 500px;
     }
 </style>
