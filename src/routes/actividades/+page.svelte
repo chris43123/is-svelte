@@ -310,7 +310,7 @@
             {/each}
         </div>       
         {:else}
-        <div class="grid grid-cols-4 my-4">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-4">
 
             {#each activities as item}
             <div class="text-medium mr-2 my-2 border border-gray-200 rounded shadow-sm">
