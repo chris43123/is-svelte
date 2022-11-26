@@ -106,8 +106,6 @@
     //Send Form Register
     let errors = {}
     async function sendForm(e) {
-        console.log(actSelected)
-
         errors = {}
         const formData = new FormData(e.target);
 
@@ -125,7 +123,7 @@
         
         if(Object.entries(errors).length === 0) {
             const response = await updateDocument("activitiesRegister", data, actSelected.id, 'users')
-            showFormActivity = false
+            showFormRegister = false
             alert.show = true
             if(response) {
                 alert.title = 'Éxito'

@@ -5,6 +5,13 @@
     import {tree, subjects, treeSubjects} from '../../store.js'
     import bg from '../../public/fondo.png'
 
+
+    async function getUrl(name) {
+        let image = new URL('../../public/clases/' + name, import.meta.url).href
+        console.log(image)
+        return image
+    }
+
     let loading = true
     let Line;
     let subjSelected = ''
@@ -17,13 +24,13 @@
         bg: 'bg-slate-100',
         title: 'text-slate-900',
         subtitle: 'text-slate-500',
-        icon: 'bg-slate-400 text-white'
+        icon: 'text-white'
     }
     let cssClassActive = {
         bg: '',
         title: 'text-white',
         subtitle: 'text-white',
-        icon: 'bg-blue-500 text-white'
+        icon: 'bg-white text-white'
     }
 
     onMount(async () => {
@@ -56,7 +63,7 @@
         if(subjSelected != '') {
             document.querySelector('.card-'+subjSelected).classList.remove('bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
             document.querySelector('.title-'+subjSelected).classList.remove('text-slate-900')
-            document.querySelector('.icon-'+subjSelected).classList.remove('bg-blue-500')
+            document.querySelector('.icon-'+subjSelected).classList.remove('bg-white')
             document.querySelector('.card-'+subjSelected).classList.add('bg-slate-300')
         }
 
@@ -64,7 +71,7 @@
 
         document.querySelector('.card-'+subjSelected).classList.remove('bg-slate-300')
         document.querySelector('.card-'+subjSelected).classList.add('border-transparent','bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
-        document.querySelector('.icon-'+subjSelected).classList.add('bg-blue-500')
+        document.querySelector('.icon-'+subjSelected).classList.add('bg-white')
 
 
         nextSelected = []
@@ -235,9 +242,10 @@
             {cssClass.bg} 
             {'card-'+subject.code}
             ">
-                <div class="flex flex-center justify-center text-4xl mb-4">
-                    <div class="p-3 bg-slate-400 rounded-full {cssClass.icon} {'icon-'+subject.code}">
-                        <Icon icon="ph:atom" />
+
+                <div class="flex flex-center justify-center text-4xl mb-4 w-">
+                    <div class="p-3 rounded-full {cssClass.icon} {'icon-'+subject.code}">
+                        <img class="w-14" src={'src/public/clases/'+subject.icon} alt="">
                     </div>
                 </div>
                 <h1 class="font-bold text-md text-center mb-2 {subjSelected == subject.code ? cssClassActive.title : cssClass.title} {'title-'+subject.code} ">{subject.name}</h1>
@@ -279,6 +287,9 @@
         .card h3 {
             display: none;
         }
+        .card div {
+            display: none;
+        }
     }
     @media (max-width: 900px) {
         .card {
@@ -287,9 +298,6 @@
         }
         .card h1 {
             font-size: 12px;
-        }
-        .card div {
-            display: none;
         }
     }
 

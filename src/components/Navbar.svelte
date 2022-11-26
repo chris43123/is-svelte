@@ -49,7 +49,7 @@
         <li class="flex items-center justify-center">
           <a
             class=" text-gray-800 hover:text-blue-700 px-3 py-4 lg:py-2 flex items-center text-md font-semibold"
-            href="/"
+            href="/informacion"
           >
             Información</a
           >

@@ -106,6 +106,7 @@
 		</div>
 	</section>
 
+
 	<!-- Conocimientos -->
 	<section class="py-4">
 		<div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
@@ -113,7 +114,7 @@
 			<h4 class="font-bold text-lg text-gray-600">Conoce</h4>
 			<h3 class="text-blue-700 mb-6 md:text-3xl text-2xl md:leading-normal leading-normal font-semibold">Áreas de Conocimiento</h3>
 	  
-			<p class="mt-4 text-slate-400 max-w-xl mx-auto">Es una rama de la Ingeniería que implica la planificación, diseño, desarrollo, implementación y mantenimiento de 
+			<p class="mt-4 text-slate-500 max-w-xl mx-auto">Es una rama de la Ingeniería que implica la planificación, diseño, desarrollo, implementación y mantenimiento de 
 				los sistemas de información, que usan las diferentes empresas u organizaciones para procesar datos y producir información, que ayude 
 				en la toma de decisiones.</p>
 		  </div>

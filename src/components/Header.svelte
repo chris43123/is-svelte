@@ -13,6 +13,13 @@
                     <p class="text-2xl text-blue-700 font-semibold">Somos</p>
                     <h1 class="mb-6 text-6xl text-gray-800 font-semibold">Ingeniería en Sistemas</h1>
                     <h2 class="text-lg font-semibold text-gray-600">Bienvenidos a la página de Ingeniería en Sistemas de la UNAH, donde podrá encontrar información sobre trámites académicos,actividades, eventos, noticias y demás asuntos de interés. </h2>
+                    <div class="mt-8">
+                        <a href="/informacion" class="border-2 border-blue-700 bg-blue-700 text-white text-lg rounded px-6 py-2 mt-4 mr-2">Ver Más</a>
+                        <a
+                        href="https://firebasestorage.googleapis.com/v0/b/proyecto-svelte.appspot.com/o/Ingenieria-en-sistemas-2022.pdf?alt=media&token=b54cb1b7-4cc8-4b9c-b50d-6a891490a0d4" 
+                        target="_blank"
+                        class="border-2 border-blue-700 text-blue-700 hover:border-blue-700 hover:bg-blue-700 hover:text-white text-lg rounded px-8 py-2 mt-4 mr-2">Plan de Estudios</a>
+                    </div>
                 </div>
                 <div class="items-center hidden md:flex">
                     <div class="grid grid-cols-12 gap-7 items-center">
