@@ -14,6 +14,3 @@
 
 	<!-- Footer component here -->
 </div>
-
-<style>
-</style>

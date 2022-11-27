@@ -7,7 +7,6 @@
     export let text = '', title, success = false, danger = false, info = false, warning = false, show = false;
 
     function closeAlert() {
-        console.log('test')
 		dispatch('close');
 	}
 </script>

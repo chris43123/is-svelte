@@ -39,7 +39,6 @@ export async function getAllData (documents, value='' , q ='', sign) {
 
 export async function createDocument (coll, data , id) {
     const res = await setDoc(doc(db, coll, id), data);
-    console.log(res)
     return true
 }
 
@@ -53,8 +52,6 @@ export async function updateDocument(coll, data , id, prop) {
 }
 
 export async  function uploadFile(file) {
-    console.log(file)
-    console.log(file.name)
     const storage = getStorage();
     const storageRef = ref(storage, file.name);
 

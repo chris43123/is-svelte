@@ -365,7 +365,7 @@
                             <img src={ingAlba} class="h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover" alt="">
 
                             <div class="content mt-4">
-                                <span class="text-lg font-medium block mb-2">Ing. Alba Arias</span>
+                                <span class="text-lg font-medium block mb-2">Lic. Alba Arias</span>
                                 <span class="text-slate-400 block mb-2">Contabilidad</span>
                                 <a href="mailto:alba.arias@unah.edu.hn" class="pt-4 text-slate-500 flex flex-row items-center justify-center"><Icon icon="ph:envelope-simple-light" class="text-xl mr-2" /> <span>alba.arias@unah.edu.hn</span></a>
                             </div>
