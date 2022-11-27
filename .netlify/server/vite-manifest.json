@@ -1,0 +1,178 @@
+{
+  ".svelte-kit/build/index.js": {
+    "file": "index.js",
+    "src": ".svelte-kit/build/index.js",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_index2.js"
+    ],
+    "dynamicImports": [
+      ".svelte-kit/build/hooks.js"
+    ]
+  },
+  "src/routes/+layout.svelte": {
+    "file": "entries/pages/_layout.svelte.js",
+    "src": "src/routes/+layout.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_layout-93a5f7e6.css"
+    ]
+  },
+  "node_modules/@sveltejs/kit/src/runtime/components/error.svelte": {
+    "file": "entries/fallbacks/error.svelte.js",
+    "src": "node_modules/@sveltejs/kit/src/runtime/components/error.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ]
+  },
+  "src/routes/+page.svelte": {
+    "file": "entries/pages/_page.svelte.js",
+    "src": "src/routes/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_Icon.js"
+    ],
+    "assets": [
+      "_app/immutable/assets/head_shape_r-6d73d379.png",
+      "_app/immutable/assets/Cisco-Fuente-e09c7724.png",
+      "_app/immutable/assets/java-6825342e.png",
+      "_app/immutable/assets/sql-197c3ad9.png",
+      "_app/immutable/assets/raspberry-bf144386.png",
+      "_app/immutable/assets/num_shap-63bebc54.png",
+      "_app/immutable/assets/roberto-8d95347d.png",
+      "_app/immutable/assets/nazarena-711c5eaa.png",
+      "_app/immutable/assets/gerardo-4aeccd17.png",
+      "_app/immutable/assets/vargas-77e63a82.png",
+      "_app/immutable/assets/brand-93f12d7e.png",
+      "_app/immutable/assets/alvarenga-2c55e337.png",
+      "_app/immutable/assets/chacon-df2624c9.png",
+      "_app/immutable/assets/lara-b5331568.png",
+      "_app/immutable/assets/borjas-24eb6bcb.png",
+      "_app/immutable/assets/cubilla-5f709fc5.png",
+      "_app/immutable/assets/liliana-c52d7676.png",
+      "_app/immutable/assets/david-a008a501.png",
+      "_app/immutable/assets/julio-116cdc04.png",
+      "_app/immutable/assets/alba-b4ec5b21.png",
+      "_app/immutable/assets/browser-47dc56a5.png",
+      "_app/immutable/assets/cpu-5aa2a454.png",
+      "_app/immutable/assets/data-storage-a02b941b.png",
+      "_app/immutable/assets/network-005edb80.png",
+      "_app/immutable/assets/network-1-4c95184c.png",
+      "_app/immutable/assets/video-card-635fede3.png"
+    ]
+  },
+  "src/routes/actividades/+page.svelte": {
+    "file": "entries/pages/actividades/_page.svelte.js",
+    "src": "src/routes/actividades/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_Icon.js",
+      "_firebase.js",
+      "_Leaflet.svelte_svelte_type_style_lang.js"
+    ]
+  },
+  "src/routes/informacion/+page.svelte": {
+    "file": "entries/pages/informacion/_page.svelte.js",
+    "src": "src/routes/informacion/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ]
+  },
+  "src/routes/linea-tiempo/+page.svelte": {
+    "file": "entries/pages/linea-tiempo/_page.svelte.js",
+    "src": "src/routes/linea-tiempo/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_firebase.js",
+      "_Icon.js",
+      "_functions.js"
+    ]
+  },
+  "src/routes/panel/+page.svelte": {
+    "file": "entries/pages/panel/_page.svelte.js",
+    "src": "src/routes/panel/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_functions.js",
+      "_firebase.js",
+      "_Leaflet.svelte_svelte_type_style_lang.js"
+    ]
+  },
+  "src/routes/panel/[id]/+page.svelte": {
+    "file": "entries/pages/panel/_id_/_page.svelte.js",
+    "src": "src/routes/panel/[id]/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js"
+    ]
+  },
+  "src/routes/panel/[id]/+page.js": {
+    "file": "entries/pages/panel/_id_/_page.js",
+    "src": "src/routes/panel/[id]/+page.js",
+    "isEntry": true,
+    "imports": [
+      "_firebase.js"
+    ]
+  },
+  "src/routes/plan-estudios/+page.svelte": {
+    "file": "entries/pages/plan-estudios/_page.svelte.js",
+    "src": "src/routes/plan-estudios/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_index.js",
+      "_functions.js",
+      "_firebase.js",
+      "_index2.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page-5ccfb3f5.css"
+    ]
+  },
+  "_index.js": {
+    "file": "chunks/index.js"
+  },
+  "_index2.js": {
+    "file": "chunks/index2.js",
+    "imports": [
+      "_index.js"
+    ]
+  },
+  "_Icon.js": {
+    "file": "chunks/Icon.js",
+    "imports": [
+      "_index.js",
+      "_functions.js"
+    ]
+  },
+  "_functions.js": {
+    "file": "chunks/functions.js"
+  },
+  "_firebase.js": {
+    "file": "chunks/firebase.js"
+  },
+  "_Leaflet.svelte_svelte_type_style_lang.js": {
+    "file": "chunks/Leaflet.svelte_svelte_type_style_lang.js",
+    "imports": [
+      "_index.js",
+      "_Icon.js"
+    ],
+    "css": [
+      "_app/immutable/assets/Leaflet-8b00b3ad.css"
+    ]
+  },
+  ".svelte-kit/build/hooks.js": {
+    "file": "chunks/hooks.js",
+    "src": ".svelte-kit/build/hooks.js",
+    "isDynamicEntry": true
+  }
+}
