@@ -18,6 +18,7 @@
                         <a
                         href="https://firebasestorage.googleapis.com/v0/b/proyecto-svelte.appspot.com/o/Ingenieria-en-sistemas-2022.pdf?alt=media&token=b54cb1b7-4cc8-4b9c-b50d-6a891490a0d4" 
                         target="_blank"
+                        rel="noopener noreferrer"
                         class="border-2 border-blue-700 text-blue-700 hover:border-blue-700 hover:bg-blue-700 hover:text-white text-lg rounded px-8 py-2 mt-4 mr-2">Plan de Estudios</a>
                     </div>
                 </div>

@@ -37,7 +37,6 @@
 
 
     function showMap(item){
-        console.log(item.lat)
         popup = item.name
         selectedLat = item.lat
         selectedLng = item.lng
@@ -51,57 +50,6 @@
         showFormRegister = true
     }
 
-    //Convert Firestore Date
-    function convertTimestamp(timestamp) {
-        let date = timestamp.toDate();
-        let mm = date.getMonth();
-        let dd = date.getDate();
-        let yyyy = date.getFullYear();
-
-        date = dd + '/' + mm + '/' + yyyy;
-        return date;
-    }
-
-    //Checbox Utilities
-    let actAreas = []
-    function checkArea(e) {
-        if(e.target.checked) {
-            actAreas.push(e.target.value);
-        } else {
-            actAreas = actAreas.filter((item) => item !== e.target.value)
-        }
-    }
-
-    //Radio Utilities
-    let actType = ''
-    function checkType(e) {
-        actType = e.target.value;
-        console.log(actType)
-    }
-
-    //Image
-    let actImage = '', actImageName, loadImage
-    async function changeImage(e) {
-        console.log(e.target.files)
-        let file = e.target.files[0]
-        actImageName = file.name
-        // console.log(file)
-        loadImage = true
-        const res = await uploadFile(file)
-        console.log(res)
-        loadImage = false
-        if(res.success) {
-            actImage = res.url
-        } else {
-            errors.actImage = 'Ocurrio un error al subir la imagen'
-        }
-    }
-
-    //Maps Utilites
-    let latLng = {}
-    function setLatLng(e) {
-        latLng = e.detail
-    }
 
     //Send Form Register
     let errors = {}
@@ -134,91 +82,6 @@
                 alert.text = 'Hubo un error al registrarse a la actividad.'
             }
         }
-    }
-
-
-    //Send Form Activity
-    let errorsAct = {}
-    async function sendFormAct(e) {
-        errorsAct = {}
-        const formData = new FormData(e.target);
-
-        const data = {};
-        for (let field of formData) {
-        const [key, value] = field;
-        if( !required(value) ) {
-            errorsAct[key] = 'Este campo es requerido'
-        }
-            data[key] = value;
-        }
-
-        if(actAreas.length <= 0) {
-            errorsAct.actAreas = 'Debe seleccionar una de las opciones.'
-        }
-        if(actType == '') {
-            errorsAct.actType = 'Debe seleccionar una de las opciones.'
-        }
-        console.log(actImage)
-
-        if(actImage == '') {
-            errorsAct.actImage = 'Debe cargar una imagen.'
-        }
-        
-        
-        if(actType == 'Exterior') {
-            if(Object.entries(latLng).length === 0) {
-                errorsAct.actLatLng = 'Debe marcar una posicion en el mapa.'
-            }
-        }
-        
-        if(Object.entries(errorsAct).length === 0){
-            let activity = {
-                id: uuid,
-                name: data.actName,
-                career: data.actCareer,
-                description: data.actDesc,
-                email: data.actEmailOwner,
-                owner: data.actOwner,
-                hours: data.actHours,
-                start: data.actStart,
-                end: data.actEnd,
-                date: data.actDate,
-                area: actAreas,
-                type: actType,
-                image: actImage
-            }
-            if(actType == 'Presencial') {
-                activity.place = data.actPlace
-            } 
-            if(actType == 'Virtual') {
-                activity.link = data.actLink
-            }
-            if(actType == 'Exterior') {
-                activity.lat = latLng.lat
-                activity.lng = latLng.lng
-            }
-
-            console.log(uuid)
-            console.log(uuid2)
-            const response = await createDocument("activities", activity, uuid)
-            const res = await createDocument("activitiesRegister", {idAct: uuid, name: activity.name}, uuid)
-
-            showFormActivity = false
-            alert.show = true
-            if(response) {
-                console.log('Enviado')
-                alert.title = 'Éxito'
-                alert.text = 'Actividad guardada exitosamente.'
-                await getActivities()
-            } else {
-                console.log(response)
-                alert.title = 'Error'
-                alert.text = 'Problemas procesando la actividad.'
-            }
-        } else {
-            console.log('test2')
-        }
-        
     }
 
 
