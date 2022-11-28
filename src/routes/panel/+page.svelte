@@ -2,7 +2,7 @@
     import Icon from '@iconify/svelte';
     import { v4 as uuidv4 } from 'uuid';
     import {required} from '../../utils/validations'
-    import {getAllData, createDocument, uploadFile} from '../../utils/firebase/firebaseApi'
+    import {getAllData, createDocument, uploadFile, deleteDocument} from '../../utils/firebase/firebaseApi'
     import { onMount } from 'svelte';
 
     // Components
@@ -16,41 +16,39 @@
     let activities = []
     let showFormActivity = false;
     let uuid = uuidv4()
-    let uuid2 = uuidv4()
     let alert = {}
     let load = ''
-    let headers = ['Actividad', 'Descripción', 'Tipo', 'Inicio', 'Final', 'Fecha']
-
-
-    async function getActivities() {
-        load = true
-        activities = await getAllData('activities', '', '');
-        load = false
-    }
+    let headers = ['Actividad', 'Descripción', 'Tipo', 'Inicio', 'Final', 'Fecha', 'Acción']
 
     onMount(async () => {
         await getActivities()
         console.log(activities)
     });
 
-
-
-    //Activities
-    let actSelected
-    function selectActivity(act) {
-        actSelected = act
-        showFormRegister = true
+    //Get all Activities
+    async function getActivities() {
+        load = true
+        activities = await getAllData('activities', '', '');
+        load = false
     }
 
-    //Convert Firestore Date
-    function convertTimestamp(timestamp) {
-        let date = timestamp.toDate();
-        let mm = date.getMonth();
-        let dd = date.getDate();
-        let yyyy = date.getFullYear();
+    //Delete Activity
+    async function deleteAct(id) {
+        console.log(id)
+        const response = await deleteDocument("activities", id)
 
-        date = dd + '/' + mm + '/' + yyyy;
-        return date;
+        showFormActivity = false
+        alert.show = true
+        if(response) {
+            alert.title = 'Éxito'
+            alert.status= 'success'
+            alert.text = 'Actividad eliminada exitosamente.'
+            await getActivities()
+        } else {
+            alert.title = 'Error'
+            alert.status= 'danger'
+            alert.text = 'Problemas al eliminar la actividad.'
+        }
     }
 
     //Checbox Utilities
@@ -73,12 +71,10 @@
     //Image
     let actImage = '', actImageName, loadImage
     async function changeImage(e) {
-        console.log(e.target.files)
         let file = e.target.files[0]
         actImageName = file.name
         loadImage = true
         const res = await uploadFile(file)
-        console.log(res)
         loadImage = false
         if(res.success) {
             actImage = res.url
@@ -165,28 +161,22 @@
             showFormActivity = false
             alert.show = true
             if(response) {
-                console.log('Enviado')
                 alert.title = 'Éxito'
                 alert.text = 'Actividad guardada exitosamente.'
                 await getActivities()
             } else {
-                console.log(response)
                 alert.title = 'Error'
                 alert.text = 'Problemas procesando la actividad.'
             }
-        } else {
-            console.log('test2')
         }
         
     }
-
-
 
 </script>
 
 <div class="container m-auto py-5">
 
-    <Alert show={alert.show} on:close={() => alert.show = false} title={alert.title} text={alert.text} success/>
+    <Alert show={alert.show} on:close={() => alert.show = false} title={alert.title} text={alert.text} status={alert.status}/>
 
     <Modal on:close={() => showFormActivity = false} show={showFormActivity} title="Nueva Actividad" subtitle="Ingrese la información">
         <div class="" slot="body">
@@ -446,6 +436,11 @@
                         </thead>
 
                         <tbody>
+                            {#if activities.length == 0}
+                                <tr>
+                                    <td>No hay actividadess</td>
+                                </tr>
+                            {/if}
                             {#each activities as {name, description, type, date, start, end, id}}
                             <tr class="hover:bg-slate-100 hover:cursor-pointer" on:click={goToAct(id)}>
                                 <th class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 ">
@@ -465,6 +460,12 @@
                                 </td>
                                 <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
                                 {end}
+                                </td>
+                                <td class="border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4">
+                                    <button on:click|stopPropagation={deleteAct(id)} class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center">
+                                        <Icon icon="ph:trash" class="mr-2 text-lg"/>
+                                        <span>Eliminar</span>
+                                    </button>
                                 </td>
                             </tr>
                             {/each}

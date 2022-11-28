@@ -377,4 +377,11 @@
             </div><!--end container-->
 		</div>
 	  </section>
+
+	  <footer class="absolute mb-0 w-full mt-16 bg-gradient-to-r from-blue-700 to-blue-500 px-8 py-4">
+		<div class="mx-auto max-w-screen-xl">
+			<h2 class="text-center text-white text-lg">Ingeniería en Sistemas - UNAH-VS</h2>
+		</div>
+
+	</footer>
 </div>

@@ -24,7 +24,6 @@
     let selectedLng = ''
     let popup = ''
 
-
     async function getActivities() {
         load = true
         activities = await getAllData('activities', '', '');
@@ -75,10 +74,11 @@
             alert.show = true
             if(response) {
                 alert.title = 'Éxito'
+                alert.status = 'success'
                 alert.text = 'Registro Exitoso.'
             } else {
-                console.log(response)
                 alert.title = 'Error'
+                alert.status = 'danger'
                 alert.text = 'Hubo un error al registrarse a la actividad.'
             }
         }
@@ -90,13 +90,14 @@
 
 <div class="container m-auto py-5">
 
-    <Alert show={alert.show} on:close={() => alert.show = false} title={alert.title} text={alert.text} success/>
+    <Alert show={alert.show} on:close={() => alert.show = false} title={alert.title} text={alert.text} status={alert.status}/>
 
     <Modal on:close={() => showFormActivity = false} show={showFormActivity} title="Ubicación" subtitle="Consulte la ubicación exacta">
         <div slot="body">
             <LeafletMap lat={selectedLat} lng={selectedLng} lg view popup={popup}/>
         </div>
     </Modal>
+
 
     <Modal on:close={() => showFormRegister = false} show={showFormRegister} title="Nuevo Registro" subtitle="Ingrese la información requerida">
         <div class="" slot="body">
@@ -181,7 +182,9 @@
                     </div>
                     <div class="absolute top-0 w-full rounded">
                         {#if item.image}
+                        <a href={item.image} target="_blank" rel="noopener noreferrer">
                         <img class="mt-0 w-full h-56 max-h-56 object-scale-down rounded" src={item.image} alt="">
+                        </a>
                         {:else}
                         <img class="w-full h-56 max-h-56 object-cover rounded" src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80" alt="">
                         {/if}

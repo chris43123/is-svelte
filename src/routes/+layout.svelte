@@ -12,5 +12,5 @@
 		<slot />
 	</main>
 
-	<!-- Footer component here -->
+
 </div>

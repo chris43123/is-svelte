@@ -64,14 +64,10 @@
             document.querySelector('.card-'+subjSelected).classList.remove('bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
             document.querySelector('.title-'+subjSelected).classList.remove('text-slate-900')
             document.querySelector('.icon-'+subjSelected).classList.remove('bg-white')
-            document.querySelector('.card-'+subjSelected).classList.add('bg-slate-300')
+            document.querySelector('.card-'+subjSelected).classList.add('bg-slate-300','opacity-75')
         }
 
         subjSelected = subject.code
-
-        document.querySelector('.card-'+subjSelected).classList.remove('bg-slate-300')
-        document.querySelector('.card-'+subjSelected).classList.add('border-transparent','bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
-        document.querySelector('.icon-'+subjSelected).classList.add('bg-white')
 
 
         nextSelected = []
@@ -94,7 +90,6 @@
                     if(el != undefined && subject.code != undefined && el != '' && subject.code != '') {
                         let start  = document.querySelector('#'+subject.code)
                         let end  = document.querySelector('#'+el)
-                        console.log(screen.width)
                         if(start != undefined && end != undefined) {
                             line = new Line(start, end, {
                                 color: '#14b8a6', size: size,
@@ -148,33 +143,33 @@
                         foundNext = nextSelected.find(el => el == element.code)
 
                         if(foundReq != undefined && foundReq  != '') {
-                            item.classList.remove('bg-slate-300')
+                            item.classList.remove('bg-slate-300', 'opacity-75')
                             item.classList.add('border-b-8' ,'border-orange-300', 'bg-white')
                             icon.classList.add('bg-orange-300' ,'text-white')
                         } else {
-                            item.classList.add('bg-slate-300')
+                            item.classList.add('bg-slate-300', 'opacity-75')
                             if(item != null) {
                                 if(item.classList.contains('border-orange-300')) {
                                     icon.classList.remove('bg-orange-300')
-                                    item.classList.remove('border-orange-300', 'bg-slate-300', 'bg-white')
+                                    item.classList.remove('border-orange-300', 'bg-slate-300', 'bg-white', 'opacity-75')
                                     if(subjSelected != element.code) {
-                                        item.classList.add('bg-slate-300')
+                                        item.classList.add('bg-slate-300', 'opacity-75')
                                     }
                                 }
                             }
                         }
                         if(foundNext != undefined && foundNext != '') {
-                            item.classList.remove('bg-slate-300')
+                            item.classList.remove('bg-slate-300', 'opacity-75')
                             item.classList.add('border-t-8' ,'border-teal-500', 'bg-white')
                             icon.classList.add('bg-teal-500' ,'text-white')
                         } else {
                             if(item != null) {
                                 if(item.classList.contains('border-teal-500')) {
-                                    item.classList.remove('border-teal-500', 'bg-slate-300', 'bg-white')
-                                    item.classList.add('bg-slate-300')
+                                    item.classList.remove('border-teal-500', 'bg-slate-300', 'bg-white', 'opacity-75')
+                                    item.classList.add('bg-slate-300', 'opacity-75')
                                     icon.classList.remove('bg-teal-500')
                                     if(subjSelected != element.code) {
-                                        item.classList.add('bg-slate-300')
+                                        item.classList.add('bg-slate-300', 'opacity-75')
                                     }
                                 }
                             }
@@ -184,6 +179,9 @@
                 });
             });
         }
+        document.querySelector('.card-'+subjSelected).classList.remove('bg-slate-300', 'opacity-75')
+        document.querySelector('.card-'+subjSelected).classList.add('border-transparent','bg-gradient-to-r', 'from-cyan-500', 'to-blue-500')
+        document.querySelector('.icon-'+subjSelected).classList.add('bg-white')
     }
 
     onDestroy( () => {

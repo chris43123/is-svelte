@@ -1,6 +1,6 @@
 import {converterDocuments} from './firebaseMap'
 import {db} from './firebase'
-import { doc, setDoc, getDoc, getDocs, query, collection, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore"; 
+import { doc, setDoc, getDoc, getDocs, query, collection, updateDoc, arrayUnion, deleteDoc  } from "firebase/firestore"; 
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export async function getData (documents, value, converter = Function) {
@@ -33,12 +33,16 @@ export async function getAllData (documents, value='' , q ='', sign) {
         ref = query(collection(db, documents));
     }
     const docSnap = await getDocs(ref)
-    
     return converterDocuments(docSnap)
 }
 
 export async function createDocument (coll, data , id) {
-    const res = await setDoc(doc(db, coll, id), data);
+    await setDoc(doc(db, coll, id), data);
+    return true
+}
+
+export async function deleteDocument (coll , id) {
+    const res = await deleteDoc(doc(db, coll, id));
     return true
 }
 
@@ -58,7 +62,6 @@ export async  function uploadFile(file) {
     const snapshot = await uploadBytes(storageRef, file)
     const url = await getDownloadURL(ref(storage, snapshot.metadata.fullPath))
     let res = {success: true, url}
-    console.log(res)
     return res
 }
 
