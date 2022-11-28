@@ -11,18 +11,17 @@ const Navbar = create_ssr_component(($$result, $$props, $$bindings, slots) => {
         <li class="${"flex justify-center items-center"}"><a class="${"text-gray-800 hover:text-blue-700 px-3 py-4 lg:py-2 flex items-center text-md font-semibold"}" href="${"/actividades"}">Actividades</a></li></ul>
       <ul class="${"flex flex-col lg:flex-row list-none lg:ml-auto items-center"}"><li class="${"inline-block relative"}"><a class="${"text-gray-800 hover:text-blue-700 px-3 py-4 lg:py-2 flex items-center text-md font-semibold"}" href="${"/plan-estudios"}">Plan de Estudios
           </a></li>
-        <li class="${"flex items-center"}"><a href="${"https://www.facebook.com/IngenieriaEnSistemasVS"}" class="${"lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"}"><i class="${"lg:text-gray-800 text-gray-800 fab fa-facebook text-xl leading-lg"}"></i><span class="${"lg:hidden inline-block ml-2"}">Facebook</span></a></li>
-        <li class="${"flex items-center"}"><a class="${"lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"}" href="${"https://t.me/+USa9Zlwai-RGxj_A"}"><i class="${"lg:text-gray-800 text-gray-800 fab fa-telegram text-xl leading-lg"}"></i><span class="${"lg:hidden inline-block ml-2"}">telegram</span></a></li>
-        <li class="${"flex items-center"}"><a class="${"lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"}" href="${"https://instagram.com/aeis_vs?igshid=YmMyMTA2M2Y="}"><span class="${"bg-gray-800 rounded-full w-5 h-5 flex items-center justify-center"}"><i class="${"lg:text-white text-white fab fa-instagram text-md leading-lg"}"></i></span>
+        <li class="${"flex items-center"}"><a href="${"https://www.facebook.com/IngenieriaEnSistemasVS"}" target="${"_blank"}" rel="${"noopener noreferrer"}" class="${"lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"}"><i class="${"lg:text-gray-800 text-gray-800 fab fa-facebook text-xl leading-lg"}"></i><span class="${"lg:hidden inline-block ml-2"}">Facebook</span></a></li>
+        <li class="${"flex items-center"}"><a class="${"lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"}" target="${"_blank"}" rel="${"noopener noreferrer"}" href="${"https://chat.whatsapp.com/H37c9ylIyo9159JnuurrCu"}"><span class="${"bg-gray-800 rounded-full w-5 h-5 flex items-center justify-center"}"><i class="${"lg:text-white text-white fab fa-whatsapp text-md leading-lg"}"></i></span>
+            <span class="${"lg:hidden inline-block ml-2"}">Whatsapp</span></a></li>
+        <li class="${"flex items-center"}"><a class="${"lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"}" href="${"https://t.me/+USa9Zlwai-RGxj_A"}" target="${"_blank"}" rel="${"noopener noreferrer"}"><i class="${"lg:text-gray-800 text-gray-800 fab fa-telegram text-xl leading-lg"}"></i><span class="${"lg:hidden inline-block ml-2"}">telegram</span></a></li>
+        <li class="${"flex items-center"}"><a class="${"lg:text-gray-800 text-gray-800 px-3 py-4 lg:py-2 flex items-center text-xs uppercase font-semibold"}" target="${"_blank"}" rel="${"noopener noreferrer"}" href="${"https://instagram.com/aeis_vs?igshid=YmMyMTA2M2Y="}"><span class="${"bg-gray-800 rounded-full w-5 h-5 flex items-center justify-center"}"><i class="${"lg:text-white text-white fab fa-instagram text-md leading-lg"}"></i></span>
             <span class="${"lg:hidden inline-block ml-2"}">Instagram</span></a></li></ul></div></div></nav>`;
 });
 const Layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   return `<div class="${"app"}">${validate_component(Navbar, "Navbar").$$render($$result, {}, {}, {})}
 
-	<main class="${""}">${slots.default ? slots.default({}) : ``}</main>
-
-	
-</div>`;
+	<main class="${""}">${slots.default ? slots.default({}) : ``}</main></div>`;
 });
 export {
   Layout as default

@@ -1,5 +1,5 @@
 import { c as create_ssr_component, v as validate_component, e as escape, k as each } from "../../../chunks/index.js";
-import "../../../chunks/functions.js";
+import { I as Icon } from "../../../chunks/Icon.js";
 import { v4 } from "uuid";
 import "../../../chunks/firebase.js";
 import "firebase/firestore";
@@ -9,9 +9,8 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let activities = [];
   let showFormActivity = false;
   v4();
-  v4();
   let alert = {};
-  let headers = ["Actividad", "Descripci\xF3n", "Tipo", "Inicio", "Final", "Fecha"];
+  let headers = ["Actividad", "Descripci\xF3n", "Tipo", "Inicio", "Final", "Fecha", "Acci\xF3n"];
   let errorsAct = {};
   return `<div class="${"container m-auto py-5"}">${validate_component(Alert, "Alert").$$render(
     $$result,
@@ -19,7 +18,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       show: alert.show,
       title: alert.title,
       text: alert.text,
-      success: true
+      status: alert.status
     },
     {},
     {}
@@ -167,13 +166,17 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
                             </th>`;
   })}</tr></thead>
 
-                        <tbody>${each(activities, ({ name, description, type, date, start, end, id }) => {
+                        <tbody>${activities.length == 0 ? `<tr><td>No hay actividadess</td></tr>` : ``}
+                            ${each(activities, ({ name, description, type, date, start, end, id }) => {
     return `<tr class="${"hover:bg-slate-100 hover:cursor-pointer"}"><th class="${"border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 text-left text-blueGray-700 "}">${escape(name)}</th>
                                 <td class="${"border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4 "}">${escape(description)}</td>
                                 <td class="${"border-t-0 px-6 align-center border-l-0 border-r-0 text-xs whitespace-nowrap p-4"}">${escape(type)}</td>
                                 <td class="${"border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"}">${escape(date)}</td>
                                 <td class="${"border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"}">${escape(start)}</td>
                                 <td class="${"border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"}">${escape(end)}</td>
+                                <td class="${"border-t-0 px-6 align-middle border-l-0 border-r-0 text-xs whitespace-nowrap p-4"}"><button class="${"bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded inline-flex items-center"}">${validate_component(Icon, "Icon").$$render($$result, { icon: "ph:trash", class: "mr-2 text-lg" }, {}, {})}
+                                        <span>Eliminar</span>
+                                    </button></td>
                             </tr>`;
   })}</tbody></table></div></div></div></section></div></div>`;
 });

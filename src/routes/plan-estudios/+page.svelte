@@ -243,7 +243,7 @@
 
                 <div class="flex flex-center justify-center text-4xl mb-4 w-">
                     <div class="p-3 rounded-full {cssClass.icon} {'icon-'+subject.code}">
-                        <img class="w-14" src={'src/public/clases/'+subject.icon} alt="">
+                        <img class="w-14" src={`https://firebasestorage.googleapis.com/v0/b/proyecto-svelte.appspot.com/o/${subject.icon}?alt=media&token=24635afe-962b-4226-915e-0f6adb7fcc95`} alt="">
                     </div>
                 </div>
                 <h1 class="font-bold text-md text-center mb-2 {subjSelected == subject.code ? cssClassActive.title : cssClass.title} {'title-'+subject.code} ">{subject.name}</h1>

@@ -21,22 +21,22 @@ const Modal = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 });
 const Alert = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   createEventDispatcher();
-  let { text = "", title, success = false, danger = false, info = false, warning = false, show = false } = $$props;
+  let { text = "", title, status = "success", show = false } = $$props;
   if ($$props.text === void 0 && $$bindings.text && text !== void 0)
     $$bindings.text(text);
   if ($$props.title === void 0 && $$bindings.title && title !== void 0)
     $$bindings.title(title);
-  if ($$props.success === void 0 && $$bindings.success && success !== void 0)
-    $$bindings.success(success);
-  if ($$props.danger === void 0 && $$bindings.danger && danger !== void 0)
-    $$bindings.danger(danger);
-  if ($$props.info === void 0 && $$bindings.info && info !== void 0)
-    $$bindings.info(info);
-  if ($$props.warning === void 0 && $$bindings.warning && warning !== void 0)
-    $$bindings.warning(warning);
+  if ($$props.status === void 0 && $$bindings.status && status !== void 0)
+    $$bindings.status(status);
   if ($$props.show === void 0 && $$bindings.show && show !== void 0)
     $$bindings.show(show);
-  return `${show ? `<div class="${"z-100 w-full fixed left-0 my-3 bottom-0"}"><div class="${"w-11/12 max-w-md p-4 text-slate-700 flex flex-row border-l-4 shadow-lg justify-between m-auto font-semibold text " + escape(success ? "border-green-600 bg-green-50" : "", true) + " " + escape(danger ? "border-rose-500 bg-rose-50" : "", true) + " " + escape(info ? "border-blue-500 bg-blue-50" : "", true) + " " + escape(warning ? "border-orange-500 bg-orange-50" : "", true)}"><div class="${"flex flex-row"}"><span class="${"text-4xl mr-4"}">${success ? `${validate_component(Icon, "Icon").$$render(
+  return `${show ? `<div class="${"z-100 w-full fixed left-0 my-3 bottom-0"}"><div class="${"w-11/12 max-w-md p-4 text-slate-700 flex flex-row border-l-4 shadow-lg justify-between m-auto font-semibold text " + escape(
+    status == "success" ? "border-green-600 bg-green-50" : "",
+    true
+  ) + " " + escape(status == "danger" ? "border-rose-500 bg-rose-50" : "", true) + " " + escape(status == "info" ? "border-blue-500 bg-blue-50" : "", true) + " " + escape(
+    status == "warning" ? "border-orange-500 bg-orange-50" : "",
+    true
+  )}"><div class="${"flex flex-row"}"><span class="${"text-4xl mr-4"}">${status == "success" ? `${validate_component(Icon, "Icon").$$render(
     $$result,
     {
       icon: "ph:check-circle-bold",
@@ -45,7 +45,7 @@ const Alert = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     {},
     {}
   )}` : ``}
-                ${warning ? `${validate_component(Icon, "Icon").$$render(
+                ${status == "warning" ? `${validate_component(Icon, "Icon").$$render(
     $$result,
     {
       icon: "ph:warning-bold",
@@ -54,7 +54,7 @@ const Alert = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     {},
     {}
   )}` : ``}
-                ${danger ? `${validate_component(Icon, "Icon").$$render(
+                ${status == "danger" ? `${validate_component(Icon, "Icon").$$render(
     $$result,
     {
       icon: "ph:x-circle-bold",
@@ -63,7 +63,7 @@ const Alert = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     {},
     {}
   )}` : ``}
-                ${info ? `${validate_component(Icon, "Icon").$$render(
+                ${status == "info" ? `${validate_component(Icon, "Icon").$$render(
     $$result,
     {
       icon: "ph:info-bold",

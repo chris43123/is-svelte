@@ -56,7 +56,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       show: alert.show,
       title: alert.title,
       text: alert.text,
-      success: true
+      status: alert.status
     },
     {},
     {}
@@ -87,6 +87,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
       }
     }
   )}
+
 
     ${validate_component(Modal, "Modal").$$render(
     $$result,
@@ -144,7 +145,8 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 
         ${`<div class="${"grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 my-4"}">${each(activities, (item) => {
     return `<div class="${"text-medium mr-2 my-2 border border-gray-200 rounded shadow-sm"}"><div class="${"relative"}"><div class="${"bg-gradient-to-r from-cyan-500 to-blue-500 mt-0 h-56 max-h-56 w-full"}"></div>
-                    <div class="${"absolute top-0 w-full rounded"}">${item.image ? `<img class="${"mt-0 w-full h-56 max-h-56 object-scale-down rounded"}"${add_attribute("src", item.image, 0)} alt="${""}">` : `<img class="${"w-full h-56 max-h-56 object-cover rounded"}" src="${"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"}" alt="${""}">`}
+                    <div class="${"absolute top-0 w-full rounded"}">${item.image ? `<a${add_attribute("href", item.image, 0)} target="${"_blank"}" rel="${"noopener noreferrer"}"><img class="${"mt-0 w-full h-56 max-h-56 object-scale-down rounded"}"${add_attribute("src", item.image, 0)} alt="${""}">
+                        </a>` : `<img class="${"w-full h-56 max-h-56 object-cover rounded"}" src="${"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"}" alt="${""}">`}
                     </div></div>
                 <div class="${"p-3 pb-0"}"><div class="${"grid grid-cols-2"}"><h2 class="${"text-slate-700 text-lg mb-2 whitespace-nowrap text-ellipsis overflow-hidden"}"${add_attribute("title", item.name, 0)}>${escape(item.name)}</h2>
                         <h2 class="${"text-gray-500 text-md mb-2 font-semibold text-end"}">${escape(item.date)}</h2></div>

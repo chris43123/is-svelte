@@ -301,7 +301,7 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 					<div class="${"h-full flex items-stretch sm:w-full md:w-1/2 lg:w-1/3 px-8 py-4"}"><div class="${"w-full text-center team p-6 rounded-md shadow-md dark:shadow-gray-800 dark:border-gray-700 bg-white dark:bg-slate-900 relative"}"><div class="${"absolute inset-0 bg-red-300/10 dark:bg-red-300/30 rounded-md -mt-[10px] -ml-[10px] h-[98%] w-[98%] z-[-1]"}"></div>
                             <img${add_attribute("src", ingAlba, 0)} class="${"h-24 w-24 m-auto rounded-full shadow-md dark:shadow-gray-800 object-cover"}" alt="${""}">
 
-                            <div class="${"content mt-4"}"><span class="${"text-lg font-medium block mb-2"}">Ing. Alba Arias</span>
+                            <div class="${"content mt-4"}"><span class="${"text-lg font-medium block mb-2"}">Lic. Alba Arias</span>
                                 <span class="${"text-slate-400 block mb-2"}">Contabilidad</span>
                                 <a href="${"mailto:alba.arias@unah.edu.hn"}" class="${"pt-4 text-slate-500 flex flex-row items-center justify-center"}">${validate_component(Icon, "Icon").$$render(
     $$result,
@@ -312,7 +312,9 @@ const Page = create_ssr_component(($$result, $$props, $$bindings, slots) => {
     {},
     {}
   )} <span>alba.arias@unah.edu.hn</span></a></div></div></div></div>
-            </div></div></section></div>`;
+            </div></div></section>
+
+	  <footer class="${"absolute mb-0 w-full mt-16 bg-gradient-to-r from-blue-700 to-blue-500 px-8 py-4"}"><div class="${"mx-auto max-w-screen-xl"}"><h2 class="${"text-center text-white text-lg"}">Ingenier\xEDa en Sistemas - UNAH-VS</h2></div></footer></div>`;
 });
 export {
   Page as default
