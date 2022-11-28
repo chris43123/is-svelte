@@ -162,10 +162,12 @@
             alert.show = true
             if(response) {
                 alert.title = 'Éxito'
+                alert.status= 'success'
                 alert.text = 'Actividad guardada exitosamente.'
                 await getActivities()
             } else {
                 alert.title = 'Error'
+                alert.status= 'success'
                 alert.text = 'Problemas procesando la actividad.'
             }
         }
