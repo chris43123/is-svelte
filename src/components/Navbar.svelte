@@ -54,14 +54,14 @@
             Información</a
           >
         </li>
-        <li class="flex justify-center items-center">
+        <!-- <li class="flex justify-center items-center">
           <a
             class="text-gray-800 hover:text-blue-700 px-3 py-4 lg:py-2 flex items-center text-md font-semibold"
             href="/actividades"
           >
             Actividades</a
           >
-        </li>
+        </li> -->
       </ul>
       <ul class="flex flex-col lg:flex-row list-none lg:ml-auto items-center">
         <li class="inline-block relative">
